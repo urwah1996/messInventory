@@ -6,37 +6,54 @@ User=database.User;
 */
 
 
-function dbaccess() {
-  console.log("in .then");
-  var array = "newuser";
   var object = [];
-  sequelize.sync().then(function () {
-    return User
-      .findOrCreate({ where: { username: array, password: 'hello' } })
-      .spread(function (user, created) {
+  function fdInsert(array) {
+    sequelize.sync().then(function () {
+      return foodItem
+        .findOrCreate({
+          where: {
+            name: array.name
+          },
+          defaults:
+          {
+            type: array.type,
+            quantity: array.quantity,
+            lastEntryDate: array.lastEntryDate,
+            lastDrawingDate: array.lastDrawingDate,
+            minReOrderLimit: array.minReOrderLimit,
+            unit: array.unit
+          }
+        })
+        .spread(function (foodItem, created) {
 
-        console.log(created)
-      });
+          console.log(created)
+        });
 
-  });
-
-  User.findOne({ where: { username: 'world' } }).then(function (user) {
-    if (user) {
-      object = user.get({
-        plain: true
-      });
-    }
-    else {
-      console.log("Data not found");
-    }
-  }).then(function () {
-    console.log(object.password);
-    console.log("hellop")
-  })
+    });
 
 
+  }
 
-}
+  function fdFind(name) {
+    foodItem.findOne({ where: { username: name } }).then(function (found) {
+      if (found) {
+        object = found.get({
+          plain: true
+        });
+      }
+      else {
+        console.log("Data not found");
+      }
+    }).then(function () {
+      console.log(JSON.stringify(object));
+      console.log("hellop");
+    })
+
+  }
+
+
+
+
 
 
 sequelize = dbTables.sequelize;
