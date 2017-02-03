@@ -12,6 +12,7 @@ var other="hellow";
       idle: 10000
     },
     omitNull: true,
+    timestamps: false,
     dialectOptions: {
       instanceName: 'MSSQLSERVER'
     }
@@ -47,14 +48,15 @@ var other="hellow";
     lastDrawingDate: {
       type: Sequelize.DATE,
     },
-    minReOrdeLimit: {
+    minReOrderLimit: {
       type: Sequelize.FLOAT,
     },
     unit: {
       type: Sequelize.STRING,
     }
   }, {
-      freezeTableName: true // Model tableName will be the same as the model name
+      freezeTableName: true, // Model tableName will be the same as the model name
+      timestamps: false
     });
 
   var paymentVoucher = sequelize.define('paymentVoucher', {
