@@ -1,7 +1,8 @@
-var Sequelize = require('sequelize');]
-
-function database() {
-  var sequelize = new Sequelize('centralMessInventory', 'mess', '1234', {
+var Sequelize = require('sequelize');
+var other="hellow";
+//function database() {
+  console.log("in dbTables/database")
+  var sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
     dialect: 'mssql',
     host: 'localhost',
     port: 1433, // Default port
@@ -21,14 +22,12 @@ function database() {
       type: Sequelize.STRING,
 
     },
-    birthday: {
-      type: Sequelize.DATE,
-
+    password: {
+      type: Sequelize.STRING,
     }
 
   }
   );
-
   var foodItem = sequelize.define('foodItem', {
     /*foodId: {
       type: Sequelize.INTEGER,
@@ -144,5 +143,14 @@ function database() {
     });
 
 
-}
-exports.database = database;
+//}
+console.log("in dbTables");
+
+exports.sequelize = sequelize;
+exports.User = User;
+exports.foodItem = foodItem;
+exports.paymentVoucher = paymentVoucher;
+exports.purcahseOrder = purcahseOrder;
+exports.purcahseOrderItems = purcahseOrderItems;
+exports.supplier = supplier;
+exports.typeOfFood = typeOfFood;
