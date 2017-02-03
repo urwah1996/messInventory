@@ -1,18 +1,5 @@
 var Sequelize = require('sequelize');
-/*
-var sequelize = new Sequelize('messinventory ', 'USER-PC', '', {
-  host: 'localhost\\MSSQL',
-  dialect: 'mssql',
 
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  },
-
-});
-
-*/
 var sequelize = new Sequelize('centralMessInventory', 'sa', '1234' , {
 			dialect: 'mssql',
 			host: 'localhost',
@@ -70,18 +57,4 @@ User.findOne({where:{username: 'world'}}).then(function(user){
   console.log("hellop")
 })
 
-  /*      
-sequelize.sync().then(function() {
-  return User
-      .findOrCreate({where: {username: 'fnord'}, defaults: {birthday: (1996,01,07)}})
-      .spread(function(user, created) {
-        console.log(user.get({
-          plain: true
-        }))
-        console.log(created)
-});
-}
-);
-*/
-
-
+  
