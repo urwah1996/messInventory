@@ -20,44 +20,26 @@ function upload(response) {
     response.end();
 }
 
-function hey(){
-    var hi = {
-        name: 'tomato',
-        type: 2,
-        quantity: 52.1,
-        lastEntryDate: '2017-05-22',
-        lastDrawingDate: '2018-08-23',
-        minReOrderLimit: 2.3,
-        unit: 'kg'
-
-    };
-    dbAccess.fdInsert(hi);
-    
-    var st="done";
-
-    return st;
-}
-
 function foodItem(response) {
     console.log("Request handler 'foodItem' was called.");
     response.writeHead(200, { "Content-Type": "text/plain" });
     response.write("Hello foodItem");
-    dbAccess.fdFind('tomato').then(function(val){
+    dbAccess.find('tomato').then(function (val) {
         response.write(val.name);
         response.end();
     });
-    dbAccess.fall('foodItem');
+    dbAccess.fAll('foodItem');
 }
 
 function supplier(response) {
     console.log("Request handler 'supplier' was called.");
     response.writeHead(200, { "Content-Type": "text/plain" });
     response.write("Hello supplier");
-    dbAccess.suppFind('lol').then(function(val){
+    dbAccess.find('lol').then(function (val) {
         response.write(val.name);
         response.end();
     });
-    dbAccess.fall('supplier');
+    dbAccess.fAll('supplier');
 }
 
 //exports.insert = insert;
