@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 var other="hellow";
 //function database() {
   console.log("in dbTables/database")
-  var sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
+  var sequelize = new Sequelize('centralMessInventory', 'mess', '1234', {
     dialect: 'mssql',
     host: 'localhost',
     port: 1433, // Default port
