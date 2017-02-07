@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 var other = "hellow";
 //function database() {
 console.log("in dbTables/database")
-var sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
+var sequelize = new Sequelize('centralMessInventory', 'mess', '1234', {
   dialect: 'mssql',
   host: 'localhost',
   port: 1433, // Default port
@@ -57,11 +57,12 @@ var paymentVoucher = sequelize.define('paymentVoucher', {
   /*PONumber: {
     type: Sequelize.INTEGER
   },*/
-  Date: {
-    type: Sequelize.DATE
+  date: {
+    type: Sequelize.DATEONLY
   }
 }, {
-    freezeTableName: true // Model tableName will be the same as the model name
+    freezeTableName: true, // Model tableName will be the same as the model name
+    timestamps: false
   });
 
 var purchaseOrder = sequelize.define('purchaseOrder', {
@@ -72,13 +73,14 @@ var purchaseOrder = sequelize.define('purchaseOrder', {
     type: Sequelize.INTEGER
   },*/
   issueDate: {
-    type: Sequelize.DATE
+    type: Sequelize.DATEONLY
   },
   deliveryDate: {
-    type: Sequelize.DATE
+    type: Sequelize.DATEONLY
   }
 }, {
-    freezeTableName: true // Model tableName will be the same as the model name
+    freezeTableName: true, // Model tableName will be the same as the model name
+    timestamps: false
   });
 
 var purchaseOrderItems = sequelize.define('purchaseOrderItems', {
@@ -100,11 +102,12 @@ var purchaseOrderItems = sequelize.define('purchaseOrderItems', {
   quantityReceived: {
     type: Sequelize.FLOAT
   },
-  Rate: {
+  rate: {
     type: Sequelize.FLOAT
   },
 }, {
-    freezeTableName: true // Model tableName will be the same as the model name
+    freezeTableName: true, // Model tableName will be the same as the model name
+    timestamps: false
   });
 
 var drawingsTable = sequelize.define('drawingsTable', {
@@ -119,7 +122,8 @@ var drawingsTable = sequelize.define('drawingsTable', {
   }
 },
   {
-    freezeTableName: true
+    freezeTableName: true,
+    timestamps: false
   });
 
 var entriesLog = sequelize.define('entriesLog', {
@@ -140,7 +144,8 @@ var entriesLog = sequelize.define('entriesLog', {
   }
 },
   {
-    freezeTableName: true
+    freezeTableName: true,
+    timestamps: false
   });
 
 
@@ -167,7 +172,8 @@ var supplier = sequelize.define('supplier', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    initialAutoIncrement: 1
+    initialAutoIncrement: 1,
+    timestamps: false
   });
 
 var typeOfFood = sequelize.define('typeOfFood', {
@@ -178,7 +184,8 @@ var typeOfFood = sequelize.define('typeOfFood', {
     type: Sequelize.STRING
   }
 }, {
-    freezeTableName: true // Model tableName will be the same as the model name
+    freezeTableName: true, // Model tableName will be the same as the model name
+    timestamps: false
   });
 
 
@@ -201,7 +208,7 @@ purchaseOrderItems.hasMany(entriesLog);
 foodItem.hasMany(drawingsTable);
 foodItem.hasMany(purchaseOrderItems);
 purchaseOrder.hasMany(purchaseOrderItems);
-supplier.hasMany(purchaseOrder);
+supplier.hasMany(paymentVoucher);
 typeOfFood.hasMany(foodItem);
 
 console.log("in dbTables");
