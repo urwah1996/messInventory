@@ -1,192 +1,32 @@
 var Sequelize = require('sequelize');
 var dbTables = require('./dbTables');
+/*
+sequelize=database.sequelize;
+User=database.User;
+*/
 
 var object = [];
 
 sequelize = dbTables.sequelize;
 User = dbTables.User;
-drawingsTable = dbTables.drawingsTable;
-entriesLog = dbTables.entriesLog;
-foodItem = dbTables.foodItem;
 paymentVoucher = dbTables.paymentVoucher;
-purchaseOrder = dbTables.purchaseOrder;
-purchaseOrderItems = dbTables.purchaseOrderItems;
+purchaceOrder = dbTables.purcahseOrder;
+purcahseOrderItems = dbTables.purcahseOrderItems;
 supplier = dbTables.supplier;
+foodItem = dbTables.foodItem;
 typeOfFood = dbTables.typeOfFood;
 
-var abc = {};
-abc['drawingsTable'] = dbTables.drawingsTable;
-abc['entriesLog'] = dbTables.entriesLog;
-abc['foodItem'] = dbTables.foodItem;
+var abc = {}
 abc['paymentVoucher'] = dbTables.paymentVoucher;
-abc['purchaseOrder'] = dbTables.purchaseOrder;
-abc['purchaseOrderItems'] = dbTables.purchaseOrderItems;
+abc['purcahseOrder'] = dbTables.purcahseOrder;
+abc['purcahseOrderItems'] = dbTables.purcahseOrderItems;
 abc['supplier'] = dbTables.supplier;
+abc['foodItem'] = dbTables.foodItem;
 abc['typeOfFood'] = dbTables.typeOfFood;
 
-function dtInsert(array) {
-    sequelize.sync().then(function () {
-        return drawingsTable.findOrCreate({
-                where: {
-                    date: array.date,
-                    foodItemId: array.foodItemId
-                },
-                defaults:
-                {
-                    quantity: array.quantity,
-                }
-            })
-            .spread(function (drawingsTable, created) {
 
-                console.log(created)
-            });
-    });
-}
-
-function elInsert(array) {
-    sequelize.sync().then(function () {
-        return entriesLog.findOrCreate({
-                where: {
-                    date: array.date,
-                    foodItemId: array.foodItemId,
-                    purchaseOrderItemId: array.purchaseOrderItemId
-                },
-                defaults:
-                {
-                    quantity: array.quantity,
-                    paid: array.paid
-                }
-            })
-            .spread(function (entriesLog, created) {
-
-                console.log(created)
-            });
-    });
-}
-
-function fdInsert(array) {
-    sequelize.sync().then(function () {
-        return foodItem.findOrCreate({
-                where: {
-                    name: array.name
-                },
-                defaults:
-                {
-                    typeOfFoodId: array.typeOfFoodId,
-                    quantity: array.quantity,
-                    lastEntryDate: array.lastEntryDate,
-                    lastDrawingDate: array.lastDrawingDate,
-                    minReOrderLimit: array.minReOrderLimit,
-                    unit: array.unit
-                }
-            })
-            .spread(function (foodItem, created) {
-
-                console.log(created)
-            });
-    });
-}
-
-function pvInsert(array) {
-    sequelize.sync().then(function () {
-        return paymentVoucher.findOrCreate({
-                where: {
-                    date: array.date,
-                    purchaseOrderId: array.purchaseOrderId,
-                    supplierSID: array.supplierSID
-                },
-                defaults:
-                {
-                }
-            })
-            .spread(function (paymentVoucher, created) {
-
-                console.log(created)
-            });
-    });
-}
-
-function poInsert(array) {
-    sequelize.sync().then(function () {
-        return purchaseOrder.findOrCreate({
-                where: {
-                    deliveryDate: array.deliveryDate,
-                    issueDate: array.issueDate,
-                },
-                defaults:
-                {
-                    supplierSID: array.supplierSID
-                }
-            })
-            .spread(function (purchaseOrder, created) {
-
-                console.log(created)
-            });
-    });
-}
-
-function poiInsert(array) {
-    sequelize.sync().then(function () {
-        return purchaseOrderItems.findOrCreate({
-                where: {
-                    
-                    quantityDemanded: array.quantityDemanded,
-                    quantityReceived: array.quantityReceived,
-                    
-                },
-                defaults:
-                {
-                    delivered: array.delivered,
-                    purchaseOrderId: array.purchaseOrder,
-                    rate: array.rate,
-                    foodItemId: array.foodItemId
-                }
-            })
-            .spread(function (purchaseOrderItems, created) {
-
-                console.log(created)
-            });
-    });
-}
-
-function sInsert(array) {
-    sequelize.sync().then(function () {
-        return supplier.findOrCreate({
-                where: {
-                    name: array.name
-                },
-                defaults:
-                {
-                    contactNO: array.contactNO,
-                    address: array.address,
-                }
-            })
-            .spread(function (supplier, created) {
-
-                console.log(created)
-            });
-    });
-}
-
-function tofInsert(array) {
-    sequelize.sync().then(function () {
-        return typeOfFood.findOrCreate({
-                where: {
-                    name: array.name
-                },
-                defaults:
-                {
-                }
-            })
-            .spread(function (typeOfFood, created) {
-
-                console.log(created)
-            });
-    });
-}
-
-function find(name, tableName) {
-    return abc[tableName].findOne({ where: { name: name } })
+function find(id, tableName) {
+    return abc[tableName].findOne({ where: { id: id } })
         .then(function (found, res) {
             if (found) {
                 object = found.get({
@@ -207,66 +47,128 @@ function fAll(tableName) {
     })
 }
 
-exports.fdInsert = dtInsert;
-exports.fdInsert = elInsert;
+var xyz = {};
+function Insert(tableName, q) {
+    sequelize.sync().then(function () {
+        var query1 = "SELECT * FROM " + tableName + " WHERE ";
+        var key = Object.keys(q);
+        for (var i = 0; i < key.length; i++) {
+            if (typeof (q[key[i]]) === 'number')
+                query1 += key[i] + " = " + q[key[i]] + " ";
+            else
+                query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+
+
+            if (i != key.length - 1)
+                query1 += "AND ";
+
+
+
+        }
+        console.log(query1);
+        return sequelize.query(query1).spread(function (results, metadata) {
+            // Results will be an empty array and metadata will contain the number of affected rows.
+            console.log(results);
+            console.log(metadata);
+            if (metadata == '') {
+                console.log('in if')
+                var query2 = "INSERT INTO " + tableName + " (";
+                var key = Object.keys(q);
+                for (var i = 0; i < key.length; i++) {
+
+                    query2 += key[i];
+
+
+                    if (i != key.length - 1)
+                        query2 += ", ";
+
+                }
+                query2 += ') VALUES (';
+                for (var i = 0; i < key.length; i++) {
+
+                    if (typeof (q[key[i]]) === 'number')
+                        query2 += q[key[i]];
+                    else
+                        query2 += '\'' + q[key[i]] + '\'';
+
+
+                    if (i != key.length - 1)
+                        query2 += ", ";
+
+                }
+                query2 += ')'
+                console.log(query2);
+
+                return sequelize.query(query2).spread(function (results, metadata) {
+                    // Results will be an empty array and metadata will contain the number of affected rows.
+                    console.log(results);
+                    console.log(metadata);
+                    return results;
+                })
+
+            }
+        })
+    })
+
+}
+function Update(tableName, q, id) {
+    var key = Object.keys(q);
+    var query1 = "UPDATE " + tableName + " SET ";
+    var i = 0;
+    for (i = 0; i < key.length; i++) {
+        if (typeof (q[key[i]]) === 'number')
+            var query2 = query1 + key[i] + " = " + q[key[i]];
+        else
+            var query2 = query1 + key[i] + " = " + '\'' + q[key[i]] + '\'';
+        console.log(query2);
+        sequelize.query(query2 + " WHERE id = " + id).spread(function (results, metadata) {
+            // Results will be an empty array and metadata will contain the number of affected rows.
+            console.log(results);
+            console.log(metadata);
+        })
+    }
+
+}
+function fdDelete(name) {
+    foodItem.destroy(
+        { where: { name: name } }
+    ).then(function (rowsDestroyed) {
+        console.log(rowsDestroyed);
+    })
+}
+
+var food = {
+    name: 'potato',
+    typeOfFoodId: 5,
+    quantity: 100,
+    lastEntryDate: '2017-01-02',
+    lastDrawingDate: '2017-02-01',
+    minReOrderLimit: '2.65',
+    unit: 'kg'
+
+}
+//fdInsert(food);
+/*typeInsert({
+    name: 'Fresh'
+});*/
+var xyz = {
+
+    name: 'usman',
+    contactNO: 03332352238 ,
+    address: 'f-37'
+
+}
+
+
+var a = Object.keys(xyz);
+console.log(xyz[a[0]])
+//Update('foodItem', xyz, 'name', 'tomato');
+//fdDelete('tomato');
+Insert('supplier', xyz)
+
+
+//Insert('foodItem', food);
+
 exports.fdInsert = fdInsert;
-exports.fdInsert = pvInsert;
-exports.fdInsert = poInsert;
-exports.fdInsert = poiInsert;
-exports.fdInsert = sInsert;
-exports.fdInsert = tofInsert;
 exports.find = find;
 exports.fAll = fAll;
-
-var firstFoodItem={
-    name: 'cabbage',
-    quantity: 150,
-    lastEntryDate: '2017-02-02',
-    lastDrawingDate: '2017-02-08',
-    minReOrderLimit: 50,
-    unit: 'Kilograms',
-    typeOfFoodId: 1
-}
-
-var firstpaymentVoucher={
-    date: '2017-02-15',
-    purchaseOrderId: 01,
-    supplierSID: 01
-}
-
-var firstpurchaseOrder={
-    issueDate: '2017-02-05',
-    deliveryDate: '2017-02-15',
-    supplierSID: 01
-}
-
-var firstpurchaseOrderItems={
-    delivered: false,
-    quantityDemanded: 200,
-    quantityReceived: 0,
-    rate: 30,
-    foodItemId: 01,
-    purchaseOrderId: 01
-}
-
-var firstsupplier={
-    name: 'Naswar Khan',
-    contactNO: 03331234567,
-    address: 'Centrel Perk'
-}
-
-var firstTypeOfFood={
-    name: 'Dry'
-}
-
-var secondTypeOfFood={
-    name: 'Fresh'
-}
-
-sInsert(firstsupplier);
-tofInsert(firstTypeOfFood);
-tofInsert(secondTypeOfFood);
-fdInsert(firstFoodItem);
-poInsert(firstpurchaseOrder);
-poiInsert(firstpurchaseOrderItems);
-pvInsert(firstpaymentVoucher);
