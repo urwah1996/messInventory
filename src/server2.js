@@ -36,51 +36,60 @@ var pathname = {
 };
 
 
-router.route('/*')
+router.route('/:tableName')
     // create a bear (accessed at POST http://localhost:8080/api/bears)
     .post(function (req, res) {
         console.log(req.body.name);
         console.log(req.path);
-        var path="";
-        for (var i= 1; i < req.path.length;i++){
-                 path+=req.path[i];
-        }
-        console.log(path);
+                var path =req.params.tableName;
 
-/*
-var foodItem = {
-    name: req.body.name,
-    quantity: req.body.quantity,
-    lastEntryDate: req.body.lastEntryDate,
-    lastDrawingDate: req.body.lastDrawingDate,
-    minReOrderLimit: req.body.minReOrderLimit,
-    unit: req.body.unit,
-    typeOfFoodId: req.body.typeOfFoodId
-}*/
-dbAccess.Insert(path, req.body);
+        /*var path = "";
+        for (var i = 1; i < req.path.length; i++) {
+            path += req.path[i];
+        }*/
+        console.log(path);
+        console.log(req.body);
+        /*
+        var foodItem = {
+            name: req.body.name,
+            quantity: req.body.quantity,
+            lastEntryDate: req.body.lastEntryDate,
+            lastDrawingDate: req.body.lastDrawingDate,
+            minReOrderLimit: req.body.minReOrderLimit,
+            unit: req.body.unit,
+            typeOfFoodId: req.body.typeOfFoodId
+        }*/
+        dbAccess.Insert(path, req.body);
         // save the bear and check for errors
 
 
     })
     .get(function (req, res) {
-        var path="";
-        for (var i= 1; i < req.path.length;i++){
-                 path+=req.path[i];
-        }
+        var path =req.params.tableName;
+        /*for (var i = 1; i < req.path.length; i++) {
+            path += req.path[i];
+        }*/
         console.log(path);
-    dbAccess.fAll(path).then(function (err, bears) {
-        if (err)
-            res.send(err);
+        dbAccess.fAll(path).then(function (err, bears) {
+            if (err)
+                res.send(err);
 
-        res.json(bears);
+            res.json({message:"done"});
+        });
     });
-});
 
-router.route('/foodItem/:foodItem_id')
+router.route('/:tableName/:_id')
 
     // get the bear with that id (accessed at GET http://localhost:8080/api/bears/:bear_id)
     .get(function (req, res) {
-        dbAccess.find('foodItem', req.params.foodItem_id).then(function (err, bear) {
+        console.log("req.path="+req.path);
+        var path = "";
+        for (var i = 1; req.path[i]!='/' ; i++) {
+            path += req.path[i];
+        }
+        console.log("path="+path);
+        console.log('find_id:'+req.params.tableName);
+        dbAccess.find(req.params.tableName, req.params._id).then(function (err, bear) {
             if (err)
                 res.send(err);
             res.json(bear);
@@ -93,7 +102,7 @@ router.route('/foodItem/:foodItem_id')
             quantity: req.body.quantity
 
         }
-        dbAccess.Update('foodItem', u, req.params.foodItem_id).then(function (err, bear) {
+        dbAccess.Update(req.params.tableName, req.body, req.params._id).then(function (err, bear) {
 
             if (err)
                 res.send(err);

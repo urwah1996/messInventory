@@ -189,6 +189,7 @@ function Insert(tableName, q) {
     sequelize.sync().then(function () {
         var query1 = "SELECT * FROM " + tableName + " WHERE ";
         var key = Object.keys(q);
+        console.log(q);
         for (var i = 0; i < key.length; i++) {
             if (typeof (q[key[i]]) === 'number')
                 query1 += key[i] + " = " + q[key[i]] + " ";
@@ -233,7 +234,7 @@ function Insert(tableName, q) {
     })
 }
 
-function find(idInput, tableName) {
+function find(tableName, idInput) {
     return abc[tableName].findOne({ where: { id: idInput } })
         .then(function (found, res) {
             if (found) {
@@ -252,24 +253,28 @@ function find(idInput, tableName) {
 function Update(tableName, q, id) {
     var key = Object.keys(q);
     var query1 = "UPDATE " + tableName + " SET ";
-    var i = 0;
+    var i = 0,abc={};
     for (i = 0; i < key.length; i++) {
         if (typeof (q[key[i]]) === 'number')
             var query2 = query1 + key[i] + " = " + q[key[i]];
         else
             var query2 = query1 + key[i] + " = " + '\'' + q[key[i]] + '\'';
         console.log(query2);
-        sequelize.query(query2 + " WHERE id = " + id).spread(function (results, metadata) {
+         return sequelize.query(query2 + " WHERE id = " + id).spread(function (results, metadata) {
             // Results will be an empty array and metadata will contain the number of affected rows.
             console.log(results);
             console.log(metadata);
+            var done="updated";
+            return done;
         })
     }
+    //return abc;
 }
 
 function fAll(tableName) {
-    abc[tableName].findAll().then(function (response) {
+    return abc[tableName].findAll().then(function (response) {
         console.log(JSON.stringify(response));
+        return response;
     })
 }
 
@@ -286,14 +291,14 @@ function remove(idInput, tableName) {
         })
 }
 
-exports.ddInsert = dtInsert;
+/*exports.dtInsert = dtInsert;
 exports.elInsert = elInsert;
 exports.fdInsert = fdInsert;
 exports.pvInsert = pvInsert;
 exports.poInsert = poInsert;
 exports.poiInsert = poiInsert;
 exports.sInsert = sInsert;
-exports.tofInsert = tofInsert;
+exports.tofInsert = tofInsert;*/
 exports.Insert = Insert;
 exports.Update = Update;
 exports.find = find;
@@ -330,19 +335,19 @@ var thirdFoodItem = {
     typeOfFoodId: 1
 }
 
-var firstpaymentVoucher = {
+var firstPaymentVoucher = {
     date: '2017-02-15',
     purchaseOrderId: 01,
-    supplierSID: 01
+    supplierId: 01
 }
 
-var firstpurchaseOrder = {
+var firstPurchaseOrder = {
     issueDate: '2017-02-05',
     deliveryDate: '2017-02-15',
-    supplierSID: 01
+    supplierId: 01
 }
 
-var firstpurchaseOrderItems = {
+var firstPurchaseOrderItems = {
     delivered: false,
     quantityDemanded: 200,
     quantityReceived: 0,
@@ -351,10 +356,22 @@ var firstpurchaseOrderItems = {
     purchaseOrderId: 01
 }
 
-var firstsupplier = {
+var firstSupplier = {
     name: 'Naswar Khan',
     contactNO: 03331234567,
     address: 'Centrel Perk'
+}
+
+var secondSupplier = {
+    name: 'Ali Khan',
+    contactNO: 03337654321,
+    address: 'Centrel Pk'
+}
+
+var thirdSupplier = {
+    name: 'Ahmed Khan',
+    contactNO: 02134567123,
+    address: 'Centrel Park'
 }
 
 var firstTypeOfFood = {
@@ -365,14 +382,16 @@ var secondTypeOfFood = {
     name: 'Fresh'
 }
 
-//sInsert(firstsupplier);
-//tofInsert(firstTypeOfFood);
-//tofInsert(secondTypeOfFood);
-//fdInsert(firstFoodItem);
-//fdInsert(secondFoodItem);
-//fdInsert(thirdFoodItem);
-//poInsert(firstpurchaseOrder);
-//poiInsert(firstpurchaseOrderItems);
-//pvInsert(firstpaymentVoucher);
+/*Insert('supplier', firstSupplier);
+Insert('supplier', secondSupplier);
+Insert('supplier', thirdSupplier);
+Insert('typeOfFood', firstTypeOfFood);
+Insert('typeOfFood', secondTypeOfFood);
+Insert('foodItem', firstFoodItem);
+Insert('foodItem', secondFoodItem);
+Insert('foodItem', thirdFoodItem);
+Insert('purchaseOrder', firstPurchaseOrder);
+Insert('purchaseOrderItems', firstPurchaseOrderItems);
+Insert('paymentVoucher', firstPaymentVoucher);*/
 
-remove(1, 'foodItem');
+//remove(1, 'foodItem');

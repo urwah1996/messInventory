@@ -150,14 +150,14 @@ var entriesLog = sequelize.define('entriesLog', {
 
 
 var supplier = sequelize.define('supplier', {
-  sID: {
+  /*sID: {
     type: Sequelize.INTEGER,
     primaryKey: true,
 
     allowNull: false,
     unique: true,
     autoIncrement: true
-  },
+  },*/
   name: {
     type: Sequelize.STRING,
     unique: true
@@ -172,7 +172,7 @@ var supplier = sequelize.define('supplier', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    initialAutoIncrement: 1,
+    //initialAutoIncrement: 1,
     timestamps: false
   });
 
