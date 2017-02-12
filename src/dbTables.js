@@ -17,7 +17,7 @@ var sequelize = new Sequelize('centralMessInventory', 'mess', '1234', {
     instanceName: 'MSSQLSERVER'
   }
 });
-sequelize.authenticate().then(function(errors) { console.log(errors) });
+sequelize.authenticate().then(function (errors) { console.log(errors) });
 
 
 var foodItem = sequelize.define('foodItem', {
@@ -220,5 +220,5 @@ exports.purchaseOrder = purchaseOrder;
 exports.purchaseOrderItems = purchaseOrderItems;
 exports.supplier = supplier;
 exports.typeOfFood = typeOfFood;
-exports.drawingsTable=drawingsTable;
-exports.entriesLog=entriesLog;
+exports.drawingsTable = drawingsTable;
+exports.entriesLog = entriesLog;

@@ -253,18 +253,18 @@ function find(tableName, idInput) {
 function Update(tableName, q, id) {
     var key = Object.keys(q);
     var query1 = "UPDATE " + tableName + " SET ";
-    var i = 0,abc={};
+    var i = 0, abc = {};
     for (i = 0; i < key.length; i++) {
         if (typeof (q[key[i]]) === 'number')
             var query2 = query1 + key[i] + " = " + q[key[i]];
         else
             var query2 = query1 + key[i] + " = " + '\'' + q[key[i]] + '\'';
         console.log(query2);
-         return sequelize.query(query2 + " WHERE id = " + id).spread(function (results, metadata) {
+        return sequelize.query(query2 + " WHERE id = " + id).spread(function (results, metadata) {
             // Results will be an empty array and metadata will contain the number of affected rows.
             console.log(results);
             console.log(metadata);
-            var done="updated";
+            var done = "updated";
             return done;
         })
     }
@@ -278,16 +278,21 @@ function fAll(tableName) {
     })
 }
 
+var done;
+
 function remove(idInput, tableName) {
     console.log(tableName + " hello\n\n");
-    abc[tableName].destroy({ where: { id: idInput } })
+    return abc[tableName].destroy({ where: { id: idInput } })
         .then(function (found) {
             if (found) {
                 console.log("\nDeleted.\n");
+                done = "Deleted";
             }
             else {
                 console.log("\nData not found.\n");
+                done="Data not found";
             }
+            return done;
         })
 }
 
