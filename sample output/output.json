@@ -1,0 +1,142 @@
+////////////////////////////////////////////GET////////////////////////////////////////////////
+//output of http://localhost:8080/api/supplier  
+[
+    {
+        "id": 1,
+        "name": "Ahmed Khan",
+        "contactNO": 292744787,
+        "address": "Centrel Park"
+    },
+    {
+        "id": 2,
+        "name": "Ali Khan",
+        "contactNO": 461330641,
+        "address": "Centrel Pk"
+    },
+    {
+        "id": 3,
+        "name": "Naswar Khan",
+        "contactNO": 459618679,
+        "address": "Centrel Perk"
+    },
+    {
+        "id": 6,
+        "name": "salman",
+        "contactNO": 3526588,
+        "address": "dfdf"
+    },
+    {
+        "id": 11,
+        "name": "ak kh3an",
+        "contactNO": 5324,
+        "address": "Ctrel Perk"
+    },
+    {
+        "id": 14,
+        "name": "Ahmed ali",
+        "contactNO": 3332535,
+        "address": "central"
+    },
+    {
+        "id": 18,
+        "name": "ali",
+        "contactNO": 32222,
+        "address": "mess"
+    }
+]
+/////////////////////////////////////////////////////////////////////
+//output of http://localhost:8080/api/supplier/3  
+{
+    "id": 3,
+    "name": "Naswar Khan",
+    "contactNO": 459618679,
+    "address": "Centrel Perk"
+}
+////////////////////////////////////////////GET////////////////////////////////////////////////
+
+
+////////////////////////////////////////////POST////////////////////////////////////////////////
+//Provided as input JSON:
+{
+    "name": "Ahmed ali",
+    "contactNO": fghjk,
+    "address": central
+}
+//output of http://localhost:8080/api/supplier  
+"Wrong format! for contactNO"
+
+{
+    "name": "maazali",
+    "contactNO": 0 33256526,
+    "address": "DVC"
+}
+//output of http://localhost:8080/api/supplier  
+"successfully added"
+////////////////////////////////////////////POST////////////////////////////////////////////////
+
+
+////////////////////////////////////////////PUT////////////////////////////////////////////////
+// Same outputs as POST
+
+////////////////////////////////////////////DELETE////////////////////////////////////////////////
+
+//output of http://localhost:8080/api/foodItem/6
+
+//Previous List
+[
+  {
+    "id": 4,
+    "name": "tomato",
+    "quantity": 300,
+    "lastEntryDate": "2017-02-09T00:00:00.000Z",
+    "lastDrawingDate": "2017-02-05T00:00:00.000Z",
+    "minReOrderLimit": 100,
+    "unit": "Kilograms",
+    "typeOfFoodId": 1
+  },
+  {
+    "id": 5,
+    "name": "cabbage",
+    "quantity": 150,
+    "lastEntryDate": "2017-02-02T00:00:00.000Z",
+    "lastDrawingDate": "2017-02-08T00:00:00.000Z",
+    "minReOrderLimit": 50,
+    "unit": "Kilograms",
+    "typeOfFoodId": 1
+  },
+  {
+    "id": 6,
+    "name": "tomato",
+    "quantity": 300,
+    "lastEntryDate": "2017-02-09T00:00:00.000Z",
+    "lastDrawingDate": "2017-02-05T00:00:00.000Z",
+    "minReOrderLimit": 100,
+    "unit": "Kilograms",
+    "typeOfFoodId": 1
+  }
+]  
+
+///Updated List
+
+[
+  {
+    "id": 4,
+    "name": "tomato",
+    "quantity": 300,
+    "lastEntryDate": "2017-02-09T00:00:00.000Z",
+    "lastDrawingDate": "2017-02-05T00:00:00.000Z",
+    "minReOrderLimit": 100,
+    "unit": "Kilograms",
+    "typeOfFoodId": 1
+  },
+  {
+    "id": 5,
+    "name": "cabbage",
+    "quantity": 150,
+    "lastEntryDate": "2017-02-02T00:00:00.000Z",
+    "lastDrawingDate": "2017-02-08T00:00:00.000Z",
+    "minReOrderLimit": 50,
+    "unit": "Kilograms",
+    "typeOfFoodId": 1
+  }
+]
