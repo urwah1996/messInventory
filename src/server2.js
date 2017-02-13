@@ -35,52 +35,64 @@ var pathname = {
     foodItem: 'foodItem'
 };
 
+var abc = {};
+abc['drawingsTable'] = true;
+abc['entriesLog'] = true;
+abc['foodItem'] = true;
+abc['paymentVoucher'] = true;
+abc['purchaseOrder'] = true;
+abc['purchaseOrderItems'] = true;
+abc['supplier'] = true;
+abc['typeOfFood'] = true;
+
 
 router.route('/:tableName')
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
     .post(function (req, res) {
+
+
         console.log(req.body.name);
         console.log(req.path);
         var path = req.params.tableName;
 
-        /*var path = "";
-        for (var i = 1; i < req.path.length; i++) {
-            path += req.path[i];
-        }*/
+
         console.log(path);
         console.log(req.body);
-        /*
-        var foodItem = {
-            name: req.body.name,
-            quantity: req.body.quantity,
-            lastEntryDate: req.body.lastEntryDate,
-            lastDrawingDate: req.body.lastDrawingDate,
-            minReOrderLimit: req.body.minReOrderLimit,
-            unit: req.body.unit,
-            typeOfFoodId: req.body.typeOfFoodId
-        }*/
-        dbAccess.Insert(path, req.body);
-        // save the bear and check for errors
+        if (!abc[path]) {
+            console.log('rerouting');
+            next();
+
+        }
+        else {
+            dbAccess.Insert(path, req.body).then(function (value) {
+                res.json(value);
+            });
+        }
+        
 
 
     })
-    .get(function (req, res) {
+    .get(function (req, res, next) {
         var path = req.params.tableName;
-        /*for (var i = 1; i < req.path.length; i++) {
-            path += req.path[i];
-        }*/
+        
         console.log(path);
-        dbAccess.fAll(path).then(function (err, bears) {
-            if (err)
-                res.send(err);
+        if (!abc[path]) {
+            console.log('rerouting');
+            next();
 
-            res.json({ message: "done" });
-        });
+        }
+        else {
+            dbAccess.fAll(path).then(function (err, bears) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: "done" });
+            });
+        }
     });
 
 router.route('/:tableName/:_id')
 
-    // get the bear with that id (accessed at GET http://localhost:8080/api/bears/:bear_id)
+
     .get(function (req, res) {
         console.log("req.path=" + req.path);
         var path = "";
@@ -97,10 +109,7 @@ router.route('/:tableName/:_id')
     })
     .put(function (req, res) {
 
-        // use our bear model to find the bear we want
-        var u = {
-            quantity: req.body.quantity
-        }
+   
         dbAccess.Update(req.params.tableName, req.body, req.params._id).then(function (err, bear) {
 
             if (err)
@@ -111,14 +120,14 @@ router.route('/:tableName/:_id')
 
     })
     .delete(function (req, res) {
-        
-        dbAccess.remove(req.params._id, req.params.tableName).then(function(err, bear) {
+
+        dbAccess.remove(req.params._id, req.params.tableName).then(function (err, bear) {
             if (err)
                 res.send(err);
 
             res.json({ message: 'Successfully deleted' });
         });
-        
+
     });
 
 
