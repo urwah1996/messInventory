@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 var dbTables = require('./dbTables');
-
+var validator = require('validator');
 var object = [];
 
 sequelize = dbTables.sequelize;
@@ -37,12 +37,10 @@ abc['typeOfFood'] = dbTables.typeOfFood;
             }
         })
             .spread(function (drawingsTable, created) {
-
                 console.log(created)
             });
     });
 }
-
 function elInsert(array) {
     sequelize.sync().then(function () {
         return entriesLog.findOrCreate({
@@ -58,12 +56,10 @@ function elInsert(array) {
             }
         })
             .spread(function (entriesLog, created) {
-
                 console.log(created)
             });
     });
 }
-
 function fdInsert(array) {
     sequelize.sync().then(function () {
         return foodItem.findOrCreate({
@@ -81,12 +77,10 @@ function fdInsert(array) {
             }
         })
             .spread(function (foodItem, created) {
-
                 console.log(created)
             });
     });
 }
-
 function pvInsert(array) {
     sequelize.sync().then(function () {
         return paymentVoucher.findOrCreate({
@@ -100,12 +94,10 @@ function pvInsert(array) {
             }
         })
             .spread(function (paymentVoucher, created) {
-
                 console.log(created)
             });
     });
 }
-
 function poInsert(array) {
     sequelize.sync().then(function () {
         return purchaseOrder.findOrCreate({
@@ -119,20 +111,16 @@ function poInsert(array) {
             }
         })
             .spread(function (purchaseOrder, created) {
-
                 console.log(created)
             });
     });
 }
-
 function poiInsert(array) {
     sequelize.sync().then(function () {
         return purchaseOrderItems.findOrCreate({
             where: {
-
                 quantityDemanded: array.quantityDemanded,
                 quantityReceived: array.quantityReceived,
-
             },
             defaults:
             {
@@ -143,12 +131,10 @@ function poiInsert(array) {
             }
         })
             .spread(function (purchaseOrderItems, created) {
-
                 console.log(created)
             });
     });
 }
-
 function sInsert(array) {
     sequelize.sync().then(function () {
         return supplier.findOrCreate({
@@ -162,12 +148,10 @@ function sInsert(array) {
             }
         })
             .spread(function (supplier, created) {
-
                 console.log(created)
             });
     });
 }
-
 function tofInsert(array) {
     sequelize.sync().then(function () {
         return typeOfFood.findOrCreate({
@@ -179,22 +163,74 @@ function tofInsert(array) {
             }
         })
             .spread(function (typeOfFood, created) {
-
                 console.log(created)
             });
     });
 }*/
 
 function Insert(tableName, q) {
-    sequelize.sync().then(function () {
+    return sequelize.sync().then(function () {
         var query1 = "SELECT * FROM " + tableName + " WHERE ";
         var key = Object.keys(q);
-        console.log(q);
+
+        // console.log(abc[tableName].rawAttributes[key[1]].type.key);
         for (var i = 0; i < key.length; i++) {
-            if (typeof (q[key[i]]) === 'number')
-                query1 += key[i] + " = " + q[key[i]] + " ";
-            else
-                query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+            //  console.log(abc[tableName]);
+            //  console.log(abc[tableName].rawAttributes);
+            //  console.log(abc[tableName].rawAttributes.name.type.key);
+
+
+            if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
+                if (validator.isInt(q[key[i]])) {
+                    query1 += key[i] + " = " + q[key[i]] + " ";
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            if (abc[tableName].rawAttributes[key[i]].type.key == 'FLOAT') {
+                if (validator.isFloat(q[key[i]])) {
+                    query1 += key[i] + " = " + q[key[i]] + " ";
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            else if (abc[tableName].rawAttributes[key[i]].type.key == 'STRING') {
+                if (validator.isAscii(q[key[i]])) {
+                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
+                if (validator.isDate(q[key[i]])) {
+                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            else if (abc[tableName].rawAttributes[key[i]].type.key == 'BOOLEAN') {
+                if (validator.isBoolean(q[key[i]])) {
+                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+
             if (i != key.length - 1)
                 query1 += "AND ";
         }
@@ -203,6 +239,7 @@ function Insert(tableName, q) {
             // Results will be an empty array and metadata will contain the number of affected rows.
             console.log(results);
             console.log(metadata);
+            
             if (metadata == '') {
                 console.log('in if')
                 var query2 = "INSERT INTO " + tableName + " (";
@@ -227,8 +264,12 @@ function Insert(tableName, q) {
                     // Results will be an empty array and metadata will contain the number of affected rows.
                     console.log(results);
                     console.log(metadata);
-                    return results;
+
+                    return 'successfully added';
                 })
+            }
+            else{
+                return 'Already present';
             }
         })
     })
@@ -251,24 +292,76 @@ function find(tableName, idInput) {
 }
 
 function Update(tableName, q, id) {
-    var key = Object.keys(q);
-    var query1 = "UPDATE " + tableName + " SET ";
-    var i = 0, abc = {};
-    for (i = 0; i < key.length; i++) {
-        if (typeof (q[key[i]]) === 'number')
-            var query2 = query1 + key[i] + " = " + q[key[i]];
-        else
-            var query2 = query1 + key[i] + " = " + '\'' + q[key[i]] + '\'';
-        console.log(query2);
-        return sequelize.query(query2 + " WHERE id = " + id).spread(function (results, metadata) {
+    return sequelize.sync().then(function () {
+        var key = Object.keys(q);
+        var query1 = "UPDATE " + tableName + " SET ";
+        var i = 0;
+        for (i = 0; i < key.length; i++) {
+
+            if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
+                if (validator.isInt(q[key[i]])) {
+                    query1 += key[i] + " = " + q[key[i]] + " ";
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            if (abc[tableName].rawAttributes[key[i]].type.key == 'FLOAT') {
+                if (validator.isFloat(q[key[i]])) {
+                    query1 += key[i] + " = " + q[key[i]] + " ";
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            else if (abc[tableName].rawAttributes[key[i]].type.key == 'STRING') {
+                if (validator.isAscii(q[key[i]])) {
+                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
+                if (validator.isDate(q[key[i]])) {
+                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            else if (abc[tableName].rawAttributes[key[i]].type.key == 'BOOLEAN') {
+                if (validator.isBoolean(q[key[i]])) {
+                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            if (i != key.length - 1)
+                query1 += ", ";
+        }
+        console.log(query1);
+        return sequelize.query(query1 + " WHERE id = " + id).spread(function (results, metadata) {
             // Results will be an empty array and metadata will contain the number of affected rows.
             console.log(results);
             console.log(metadata);
             var done = "updated";
             return done;
         })
-    }
-    //return abc;
+
+        //return abc;
+    })
 }
 
 function fAll(tableName) {
@@ -277,8 +370,6 @@ function fAll(tableName) {
         return response;
     })
 }
-
-var done;
 
 function remove(idInput, tableName) {
     console.log(tableName + " hello\n\n");
@@ -290,7 +381,7 @@ function remove(idInput, tableName) {
             }
             else {
                 console.log("\nData not found.\n");
-                done="Data not found";
+                done = "Data not found";
             }
             return done;
         })
@@ -357,25 +448,25 @@ var firstPurchaseOrderItems = {
     quantityDemanded: 200,
     quantityReceived: 0,
     rate: 30,
-    foodItemId: 01,
+    foodItemId: 02,
     purchaseOrderId: 01
 }
 
 var firstSupplier = {
-    name: 'Naswar Khan',
-    contactNO: 03331234567,
-    address: 'Centrel Perk'
+    name: 'ak kh3an',
+    contactNO: '5324',
+    address: 'Ctrel Perk'
 }
 
 var secondSupplier = {
     name: 'Ali Khan',
-    contactNO: 03337654321,
+    contactNO: '03337654321',
     address: 'Centrel Pk'
 }
 
 var thirdSupplier = {
     name: 'Ahmed Khan',
-    contactNO: 02134567123,
+    contactNO: '02134567123',
     address: 'Centrel Park'
 }
 
@@ -387,7 +478,10 @@ var secondTypeOfFood = {
     name: 'Fresh'
 }
 
-/*Insert('supplier', firstSupplier);
+/*
+Insert('supplier', firstSupplier);
+
+
 Insert('supplier', secondSupplier);
 Insert('supplier', thirdSupplier);
 Insert('typeOfFood', firstTypeOfFood);
@@ -395,8 +489,8 @@ Insert('typeOfFood', secondTypeOfFood);
 Insert('foodItem', firstFoodItem);
 Insert('foodItem', secondFoodItem);
 Insert('foodItem', thirdFoodItem);
-Insert('purchaseOrder', firstPurchaseOrder);
-Insert('purchaseOrderItems', firstPurchaseOrderItems);
-Insert('paymentVoucher', firstPaymentVoucher);*/
-
+//Insert('purchaseOrder', firstPurchaseOrder);
+//Insert('purchaseOrderItems', firstPurchaseOrderItems);
+//Insert('paymentVoucher', firstPaymentVoucher);
+*/
 //remove(1, 'foodItem');
