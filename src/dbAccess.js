@@ -1,6 +1,7 @@
 var Sequelize = require('sequelize');
 var dbTables = require('./dbTables');
 var validator = require('validator');
+var datetime = require('node-datetime');
 var object = [];
 
 sequelize = dbTables.sequelize;
@@ -166,8 +167,87 @@ function tofInsert(array) {
                 console.log(created)
             });
     });
-}*/
+}
+function checkvalidity(tableName, q) {
+    return sequelize.sync().then(function () {
+        var query1 = "SELECT * FROM " + tableName + " WHERE ";
+        var key = Object.keys(q);
 
+        // console.log(abc[tableName].rawAttributes[key[1]].type.key);
+        for (var i = 0; i < key.length; i++) {
+            //  console.log(abc[tableName]);
+            //  console.log(abc[tableName].rawAttributes);
+            //  console.log(abc[tableName].rawAttributes.name.type.key);
+
+
+            if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
+                if (validator.isInt(q[key[i]])) {
+                    query1 += key[i] + " = " + q[key[i]] + " ";
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            if (abc[tableName].rawAttributes[key[i]].type.key == 'FLOAT') {
+                if (validator.isFloat(q[key[i]])) {
+                    query1 += key[i] + " = " + q[key[i]] + " ";
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            else if (abc[tableName].rawAttributes[key[i]].type.key == 'STRING') {
+                if (validator.isAscii(q[key[i]])) {
+                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
+                if (validator.isDate(q[key[i]])) {
+                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+            else if (abc[tableName].rawAttributes[key[i]].type.key == 'BOOLEAN') {
+                if (validator.isBoolean(q[key[i]])) {
+                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                }
+                else {
+                    var a = 'Wrong format! for ' + key[i];
+                    console.log(a);
+                    return a;
+                }
+            }
+
+            if (i != key.length - 1)
+                query1 += "OR ";
+        }
+        console.log(query1);
+        return sequelize.query(query1).spread(function (results, metadata) {
+            // Results will be an empty array and metadata will contain the number of affected rows.
+            console.log(results);
+            console.log(metadata);
+
+            if (metadata == '')
+                return 'No data found';
+            else
+                return 'Something found'
+        })
+    })
+}
+*/
 function Insert(tableName, q) {
     return sequelize.sync().then(function () {
         var query1 = "SELECT * FROM " + tableName + " WHERE ";
@@ -239,7 +319,7 @@ function Insert(tableName, q) {
             // Results will be an empty array and metadata will contain the number of affected rows.
             console.log(results);
             console.log(metadata);
-            
+
             if (metadata == '') {
                 console.log('in if')
                 var query2 = "INSERT INTO " + tableName + " (";
@@ -249,6 +329,7 @@ function Insert(tableName, q) {
                     if (i != key.length - 1)
                         query2 += ", ";
                 }
+                query2 += ', createdAt, updatedAt'
                 query2 += ') VALUES (';
                 for (var i = 0; i < key.length; i++) {
                     if (typeof (q[key[i]]) === 'number')
@@ -258,6 +339,12 @@ function Insert(tableName, q) {
                     if (i != key.length - 1)
                         query2 += ", ";
                 }
+
+                var d = new Date().toISOString().
+                    replace(/T/, ' ').      // replace T with a space
+                    replace(/\..+/, '')
+                console.log(d)
+                query2 += ', \'' + d + '\', \'' + d + '\'';
                 query2 += ')'
                 console.log(query2);
                 return sequelize.query(query2).spread(function (results, metadata) {
@@ -268,7 +355,7 @@ function Insert(tableName, q) {
                     return 'successfully added';
                 })
             }
-            else{
+            else {
                 return 'Already present';
             }
         })
@@ -287,6 +374,7 @@ function find(tableName, idInput) {
             }
             else {
                 console.log("Data not found");
+                return ("Data not found");
             }
         })
 }
@@ -296,6 +384,8 @@ function Update(tableName, q, id) {
         var key = Object.keys(q);
         var query1 = "UPDATE " + tableName + " SET ";
         var i = 0;
+
+
         for (i = 0; i < key.length; i++) {
 
             if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
@@ -352,25 +442,38 @@ function Update(tableName, q, id) {
                 query1 += ", ";
         }
         console.log(query1);
-        return sequelize.query(query1 + " WHERE id = " + id).spread(function (results, metadata) {
+        return sequelize.query(query1 + " WHERE id = " + id, { type: sequelize.QueryTypes.UPDATE }).then(function (err, results) {
             // Results will be an empty array and metadata will contain the number of affected rows.
+            if (err) {
+                console.log('ee');
+            }
             console.log(results);
-            console.log(metadata);
+
             var done = "updated";
             return done;
         })
+
+
+
+
 
         //return abc;
     })
 }
 
-function fAll(tableName) {
-    return abc[tableName].findAll().then(function (response) {
+function fAll(tableName, offset, limit) {
+    return abc[tableName].findAll({ offset: offset, limit: limit }).then(function (response) {
         console.log(JSON.stringify(response));
         return response;
     })
 }
-
+function countall(tableName) {
+    return abc[tableName].count().then(function (metadata) {
+        console.log('metadata');
+        console.log(metadata);
+        return metadata;
+    })
+}
 function remove(idInput, tableName) {
     console.log(tableName + " hello\n\n");
     return abc[tableName].destroy({ where: { id: idInput } })
@@ -400,7 +503,7 @@ exports.Update = Update;
 exports.find = find;
 exports.fAll = fAll;
 exports.remove = remove;
-
+exports.countall = countall;
 var firstFoodItem = {
     name: 'cabbage',
     quantity: 150,

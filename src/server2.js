@@ -47,8 +47,8 @@ abc['typeOfFood'] = true;
 
 
 router.route('/:tableName')
-    .post(function (req, res) {
-
+    .post(function (req, res, next) {
+        
 
         console.log(req.body.name);
         console.log(req.path);
@@ -64,16 +64,22 @@ router.route('/:tableName')
         }
         else {
             dbAccess.Insert(path, req.body).then(function (value) {
-                res.json(value);
+                if (value != 'successfully added') {
+                    res.status(404).send(value);
+                }
+                else
+                    res.status(200).json(value);
             });
         }
-        
+
 
 
     })
     .get(function (req, res, next) {
+       //  (req,res,next) = > {}
+       //this.myFunc{()}
         var path = req.params.tableName;
-        
+
         console.log(path);
         if (!abc[path]) {
             console.log('rerouting');
@@ -81,11 +87,31 @@ router.route('/:tableName')
 
         }
         else {
-            dbAccess.fAll(path).then(function (err, bears) {
-                if (err)
-                    res.send(err);
+            var page = parseInt(req.query.page, 10);
+            if (isNaN(page) || page < 1) {
+                page = 1;
+            }
 
-                res.json({ message: "done" });
+            var limit = parseInt(req.query.limit, 10);
+            if (isNaN(limit)) {
+                limit = 10;
+            } else if (limit > 50) {
+                limit = 50;
+            } else if (limit < 1) {
+                limit = 1;
+            }
+            var offset = (page - 1) * limit;
+            dbAccess.countall(path).then(function (count) {
+                console.log(count);
+            })
+
+            dbAccess.fAll(path, offset, limit).then(function (err, all) {
+                if (err) {
+                    res.send(err);
+                    res.status(404).send('Data Not found');
+                }
+
+                res.status(200).json(all);
             });
         }
     });
@@ -93,44 +119,75 @@ router.route('/:tableName')
 router.route('/:tableName/:_id')
 
 
-    .get(function (req, res) {
+    .get(function (req, res, next) {
         console.log("req.path=" + req.path);
         var path = "";
         for (var i = 1; req.path[i] != '/'; i++) {
             path += req.path[i];
         }
+        if (!abc[path]) {
+            console.log('rerouting');
+            next();
+
+        }
         console.log("path=" + path);
         console.log('find_id:' + req.params.tableName);
-        dbAccess.find(req.params.tableName, req.params._id).then(function (err, bear) {
-            if (err)
-                res.send(err);
-            res.json(bear);
+        dbAccess.find(req.params.tableName, req.params._id).then(function (response) {
+
+            if (response == 'Data not found')
+                res.status(404).send('Data Not found');
+            else
+                res.status(200).json(response);
         });
     })
-    .put(function (req, res) {
+    .put(function (req, res, next) {
 
-   
-        dbAccess.Update(req.params.tableName, req.body, req.params._id).then(function (err, bear) {
+        if (!abc[req.params.tableName]) {
+            console.log('rerouting');
+            next();
 
-            if (err)
-                res.send(err);
+        }
+        dbAccess.find(req.params.tableName, req.params._id).then(function (response) {
+            if (response == 'Data not found') {
+                res.status(404).send('Data Not found');
+            }
+            else {
+                dbAccess.Update(req.params.tableName, req.body, req.params._id).then(function (response) {
 
-            res.json({ message: 'updated' });
-        });
+
+                    if (response == 'Validation Error') {
+                        res.status(403).send('Forbidden');
+                    }
+                    else
+                        res.status(200).send('Successfully updated');
+                });
+            }
+        })
+
 
     })
-    .delete(function (req, res) {
+    .delete(function (req, res, next) {
+        if (!abc[req.params.tableName]) {
+            console.log('rerouting');
+            next();
 
-        dbAccess.remove(req.params._id, req.params.tableName).then(function (err, bear) {
+        }
+        dbAccess.remove(req.params._id, req.params.tableName).then(function (err, response) {
             if (err)
                 res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
+            if (response == 'Data not found')
+                res.status(404).send('Data Not found');
+            else
+                res.status(200).send('Successfully deleted');
         });
 
     });
 
+router.use(function (req, res, next) {
 
+    console.log("bdsdsd")
+    res.status(404).send('Not Found');
+});
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

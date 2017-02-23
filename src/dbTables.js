@@ -48,7 +48,7 @@ var foodItem = sequelize.define('foodItem', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    timestamps: false
+  
   });
 
 var paymentVoucher = sequelize.define('paymentVoucher', {
@@ -63,7 +63,7 @@ var paymentVoucher = sequelize.define('paymentVoucher', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    timestamps: false
+   
   });
 
 var purchaseOrder = sequelize.define('purchaseOrder', {
@@ -81,7 +81,7 @@ var purchaseOrder = sequelize.define('purchaseOrder', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    timestamps: false
+
   });
 
 var purchaseOrderItems = sequelize.define('purchaseOrderItems', {
@@ -108,7 +108,7 @@ var purchaseOrderItems = sequelize.define('purchaseOrderItems', {
   },
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    timestamps: false
+    
   });
 
 var drawingsTable = sequelize.define('drawingsTable', {
@@ -124,7 +124,7 @@ var drawingsTable = sequelize.define('drawingsTable', {
 },
   {
     freezeTableName: true,
-    timestamps: false
+
   });
 
 var entriesLog = sequelize.define('entriesLog', {
@@ -146,7 +146,7 @@ var entriesLog = sequelize.define('entriesLog', {
 },
   {
     freezeTableName: true,
-    timestamps: false
+    
   });
 
 
@@ -160,21 +160,21 @@ var supplier = sequelize.define('supplier', {
   },*/
   name: {
     type: Sequelize.STRING,
-    unique: true
+    
   },
   contactNO: {
     type: Sequelize.BIGINT(11),
-    unique: true,
+  
     
   },
   address: {
     type: Sequelize.STRING,
-    unique: true
+   
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
     //initialAutoIncrement: 1,
-    timestamps: false
+
   });
 
 var typeOfFood = sequelize.define('typeOfFood', {
@@ -186,7 +186,7 @@ var typeOfFood = sequelize.define('typeOfFood', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    timestamps: false
+    
   });
 
 

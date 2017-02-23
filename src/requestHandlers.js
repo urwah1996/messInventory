@@ -1,6 +1,6 @@
 var dbAccess = require("./dbAccess");
 var exec = require("child_process").exec;
-
+var url = require("url");
 function start(response) {
     console.log("Request handler 'start' was called.");
 
@@ -35,7 +35,7 @@ function supplier(response) {
     console.log("Request handler 'supplier' was called.");
     response.writeHead(200, { "Content-Type": "text/plain" });
     response.write("Hello supplier");
-    dbAccess.find('lol').then(function (val) {
+    dbAccess.find(1,'supplier').then(function (val) {
         response.write(val.name);
         response.end();
     });
