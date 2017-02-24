@@ -463,8 +463,14 @@ function Update(tableName, q, id) {
 
 function fAll(tableName, offset, limit) {
     return abc[tableName].findAll({ offset: offset, limit: limit }).then(function (response) {
+        // if(err){
+        //     return (err,null);
+        // }
+        if(!response){
+            response='Error';
+        }
         console.log(JSON.stringify(response));
-        return response;
+        return (response);
     })
 }
 function countall(tableName) {

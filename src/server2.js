@@ -48,7 +48,7 @@ abc['typeOfFood'] = true;
 
 router.route('/:tableName')
     .post(function (req, res, next) {
-        
+
 
         console.log(req.body.name);
         console.log(req.path);
@@ -76,8 +76,8 @@ router.route('/:tableName')
 
     })
     .get(function (req, res, next) {
-       //  (req,res,next) = > {}
-       //this.myFunc{()}
+        //  (req,res,next) = > {}
+        //this.myFunc{()}
         var path = req.params.tableName;
 
         console.log(path);
@@ -101,17 +101,65 @@ router.route('/:tableName')
                 limit = 1;
             }
             var offset = (page - 1) * limit;
-            dbAccess.countall(path).then(function (count) {
-                console.log(count);
-            })
+            //var a;
+            function metadata() {
+                var a;
+                return dbAccess.countall(path).then(function (count, a) {
+                    a = count;
+                    return a;
+                })
 
-            dbAccess.fAll(path, offset, limit).then(function (err, all) {
-                if (err) {
+            }
+
+
+            dbAccess.fAll(path, offset, limit).then(function (all) {
+                if (all == 'Error') {
                     res.send(err);
+                    console.log("error");
                     res.status(404).send('Data Not found');
                 }
+                else {
+                    console.log("ddf");
+                    res.status(200);
 
-                res.status(200).json(all);
+                    //res.send(JSON.stringify(all))
+                    var md = metadata();
+                    md.then((a) => {
+                        var obj = {};
+                        obj['data'] = all;
+                        obj['status'] = 'OK';
+                        console.log(req.query)
+                        console.log(req.path)
+                        var apage;
+                        if((page+1)<=Math.ceil(a/limit)){
+                            apage=page+1;
+                        }
+                        else{
+                            apage=1;
+                        }
+                        var meta = {
+                            "page": page,
+                            "total_pages": Math.ceil(a/limit),
+                            "count": a,
+                            "next": req.host + "/api/"+ path + "/?page=" + apage
+                        }
+
+                        obj['meta']=meta;
+                        //res.json(all);
+                        res.format({
+
+
+
+                            'application/json': function () {
+                                res.send(obj);
+                            }
+                            //res.write(all)
+                        })
+                    }
+                    );
+
+                }
+
             });
         }
     });
