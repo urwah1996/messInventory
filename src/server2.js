@@ -41,7 +41,7 @@ abc['purchaseOrder'] = true;
 abc['purchaseOrderItems'] = true;
 abc['supplier'] = true;
 abc['typeOfFood'] = true;
-
+abc['demandedItems'] = true;
 
 router.route('/:tableName')
     .post(function (req, res, next) {
@@ -239,13 +239,23 @@ router.route('/StockOut')
     
     .post(function (req, res, next) {
         console.log(req.body);
-        dbAccess.stock(req.body).then(function (a) {
+        dbAccess.stock(req.body,'out').then(function (a) {
             if (a == 'Updated') {
                 res.status(200).send('Updated');
             }
         })
     });
 
+router.route('/StockIn')
+    
+    .post(function (req, res, next) {
+        console.log(req.body);
+        dbAccess.stock(req.body,'in').then(function (a) {
+            if (a == 'Updated') {
+                res.status(200).send('Updated');
+            }
+        })
+    });
 router.use(function (req, res, next) {
 
     console.log("bdsdsd")

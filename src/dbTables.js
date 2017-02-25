@@ -3,7 +3,7 @@ var other = "hellow";
 //var Type = require('type-of-is');
 //function database() {
 console.log("in dbTables/database")
-var sequelize = new Sequelize('centralMessInventory', 'mess', '1234', {
+var sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
   dialect: 'mssql',
   host: 'localhost',
   port: 1433, // Default port
@@ -189,6 +189,18 @@ var typeOfFood = sequelize.define('typeOfFood', {
     
   });
 
+var demandedItems = sequelize.define('demandedItems', {
+  /*ID: {
+    type: Sequelize.INTEGER
+  },*/
+  quantity: {
+    type: Sequelize.FLOAT
+  }
+}, {
+    freezeTableName: true, // Model tableName will be the same as the model name
+    
+  });
+
 
 //}
 /*
@@ -208,6 +220,7 @@ foodItem.hasMany(entriesLog);
 purchaseOrderItems.hasMany(entriesLog);
 foodItem.hasMany(drawingsTable);
 foodItem.hasMany(purchaseOrderItems);
+foodItem.hasMany(drawingsTable);
 purchaseOrder.hasMany(purchaseOrderItems);
 supplier.hasMany(paymentVoucher);
 
@@ -224,3 +237,5 @@ exports.supplier = supplier;
 exports.typeOfFood = typeOfFood;
 exports.drawingsTable = drawingsTable;
 exports.entriesLog = entriesLog;
+exports.demandedItems=demandedItems;
+b

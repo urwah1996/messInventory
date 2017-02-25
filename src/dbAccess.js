@@ -495,13 +495,16 @@ function remove(idInput, tableName) {
             return done;
         })
 }
-function stock(obj) {
+function stock(obj, status) {
     return foodItem.findOne({
         where: {
             id: obj.id
         }
     }).then(function (res) {
-        res.quantity -= obj.quantity;
+        if (status == 'out')
+            res.quantity -= obj.quantity;
+        else if (status == 'in')
+            res.quantity += obj.quantity;
         var d = new Date().toISOString().
             replace(/T/, ' ').      // replace T with a space
             replace(/\..+/, '')
@@ -546,7 +549,7 @@ exports.fAll = fAll;
 exports.remove = remove;
 exports.countall = countall;
 exports.stock = stock;
-exports.findbyname=findbyname;
+exports.findbyname = findbyname;
 var firstFoodItem = {
     name: 'cabbage',
     quantity: 150,
