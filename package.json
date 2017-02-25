@@ -1,0 +1,26 @@
+{
+    "name": "messInventory",
+    "main": "src/server2.js",
+    "description":"Mess Inventory System",
+    "scripts": {
+    "test": "echo \"Error: no test specified\n\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/urwah1996/messInventory.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/urwah1996/messInventory/issues"
+  },
+  "homepage": "https://github.com/urwah1996/messInventory#readme",
+    "dependencies": {
+        "sequelize": "^3.30.2",
+        "express": "^4.0.0",
+        "mongoose": "^3.6.13",
+        "body-parser": "^1.0.1",
+        "validator": "^7.0.0",
+        "node-datetime": "^1.0.0"
+    }
+}
