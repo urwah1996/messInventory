@@ -466,8 +466,8 @@ function fAll(tableName, offset, limit) {
         // if(err){
         //     return (err,null);
         // }
-        if(!response){
-            response='Error';
+        if (!response) {
+            response = 'Error';
         }
         console.log(JSON.stringify(response));
         return (response);
@@ -495,7 +495,42 @@ function remove(idInput, tableName) {
             return done;
         })
 }
-
+function stock(obj) {
+    return foodItem.findOne({
+        where: {
+            name: obj.name
+        }
+    }).then(function (res) {
+        res.quantity -= obj.quantity;
+        var d = new Date().toISOString().
+            replace(/T/, ' ').      // replace T with a space
+            replace(/\..+/, '')
+        return foodItem.update({
+            quantity: res.quantity,
+            updatedAt: d
+        }, {
+                where: {
+                    name: obj.name
+                }
+            }).then(function (a) {
+                if (a)
+                    return 'Updated';
+            })
+    })
+}
+function findbyname(tableName, name) {
+    abc[tableName].findOne({
+        where: {
+            name: name
+        }
+    }).then(function (a) {
+        if (a)
+            return a
+        else {
+            return 'Error'
+        }
+    })
+}
 /*exports.dtInsert = dtInsert;
 exports.elInsert = elInsert;
 exports.fdInsert = fdInsert;
@@ -510,6 +545,8 @@ exports.find = find;
 exports.fAll = fAll;
 exports.remove = remove;
 exports.countall = countall;
+exports.stock = stock;
+exports.findbyname=findbyname;
 var firstFoodItem = {
     name: 'cabbage',
     quantity: 150,

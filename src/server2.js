@@ -31,9 +31,6 @@ router.get('/', function (req, res) {
 });
 
 // more routes for our API will happen here
-var pathname = {
-    foodItem: 'foodItem'
-};
 
 var abc = {};
 abc['drawingsTable'] = true;
@@ -131,20 +128,28 @@ router.route('/:tableName')
                         console.log(req.query)
                         console.log(req.path)
                         var apage;
-                        if((page+1)<=Math.ceil(a/limit)){
-                            apage=page+1;
+                        var url = req.host + "/api/" + path + "/?page="
+                        if ((page + 1) <= Math.ceil(a / limit)) {
+                            apage = page + 1;
+                            url += apage;
                         }
-                        else{
-                            apage=1;
-                        }
-                        var meta = {
-                            "page": page,
-                            "total_pages": Math.ceil(a/limit),
-                            "count": a,
-                            "next": req.host + "/api/"+ path + "/?page=" + apage
+                        else {
+                            url = null;
                         }
 
-                        obj['meta']=meta;
+                        if (req.query.limit) {
+                            if (url)
+                                url += '&limit=' + req.query.limit;
+                        }
+
+                        var meta = {
+                            "page": page,
+                            "total_pages": Math.ceil(a / limit),
+                            "count": a,
+                            "next": url
+                        }
+
+                        obj['meta'] = meta;
                         //res.json(all);
                         res.format({
 
@@ -230,7 +235,15 @@ router.route('/:tableName/:_id')
         });
 
     });
-
+router.route('/stockout')
+    
+    .push(function (req, res, next) {
+        dbAccess.stock(req.params).then(function (a) {
+            if (a == 'Updated') {
+                res.status(200).send('Updated');
+            }
+        })
+    })
 router.use(function (req, res, next) {
 
     console.log("bdsdsd")
