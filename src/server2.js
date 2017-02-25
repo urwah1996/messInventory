@@ -235,15 +235,17 @@ router.route('/:tableName/:_id')
         });
 
     });
-router.route('/stockout')
+router.route('/StockOut')
     
-    .push(function (req, res, next) {
-        dbAccess.stock(req.params).then(function (a) {
+    .post(function (req, res, next) {
+        console.log(req.body);
+        dbAccess.stock(req.body).then(function (a) {
             if (a == 'Updated') {
                 res.status(200).send('Updated');
             }
         })
-    })
+    });
+
 router.use(function (req, res, next) {
 
     console.log("bdsdsd")

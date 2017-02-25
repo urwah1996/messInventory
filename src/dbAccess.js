@@ -498,7 +498,7 @@ function remove(idInput, tableName) {
 function stock(obj) {
     return foodItem.findOne({
         where: {
-            name: obj.name
+            id: obj.id
         }
     }).then(function (res) {
         res.quantity -= obj.quantity;
@@ -510,7 +510,7 @@ function stock(obj) {
             updatedAt: d
         }, {
                 where: {
-                    name: obj.name
+                    id: obj.id
                 }
             }).then(function (a) {
                 if (a)
