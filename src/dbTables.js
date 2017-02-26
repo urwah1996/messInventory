@@ -48,7 +48,7 @@ var foodItem = sequelize.define('foodItem', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-  
+
   });
 
 var paymentVoucher = sequelize.define('paymentVoucher', {
@@ -63,7 +63,7 @@ var paymentVoucher = sequelize.define('paymentVoucher', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-   
+
   });
 
 var purchaseOrder = sequelize.define('purchaseOrder', {
@@ -108,7 +108,7 @@ var purchaseOrderItems = sequelize.define('purchaseOrderItems', {
   },
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    
+
   });
 
 var drawingsTable = sequelize.define('drawingsTable', {
@@ -146,7 +146,7 @@ var entriesLog = sequelize.define('entriesLog', {
 },
   {
     freezeTableName: true,
-    
+
   });
 
 
@@ -160,16 +160,16 @@ var supplier = sequelize.define('supplier', {
   },*/
   name: {
     type: Sequelize.STRING,
-    
+
   },
   contactNO: {
     type: Sequelize.BIGINT(11),
-  
-    
+
+
   },
   address: {
     type: Sequelize.STRING,
-   
+
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
@@ -186,7 +186,7 @@ var typeOfFood = sequelize.define('typeOfFood', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    
+
   });
 
 var demandedItems = sequelize.define('demandedItems', {
@@ -198,9 +198,59 @@ var demandedItems = sequelize.define('demandedItems', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-    
+
   });
 
+var studentInfo = sequelize.define('studentInfo', {
+  /*ID: {
+    type: Sequelize.INTEGER
+  },*/
+  name: {
+    type: Sequelize.STRING
+  },
+   faculty: {
+    type: Sequelize.STRING
+  },
+   room: {
+    type: Sequelize.INTEGER
+  },
+
+}, {
+    freezeTableName: true, // Model tableName will be the same as the model name
+
+  });
+
+  var messLog = sequelize.define('messLog', {
+  /*ID: {
+    type: Sequelize.INTEGER
+  },*/
+  regNo: {
+    type: Sequelize.INTEGER
+  },
+   date: {
+    type: Sequelize.DATEONLY
+  },
+   
+}, {
+    freezeTableName: true, // Model tableName will be the same as the model name
+
+  });
+
+ var hostelMess = sequelize.define('hostelMess', {
+  /*ID: {
+    type: Sequelize.INTEGER
+  },*/
+  hostel: {
+    type: Sequelize.STRING
+  },
+   date: {
+    type: Sequelize.DATEONLY
+  },
+   
+}, {
+    freezeTableName: true, // Model tableName will be the same as the model name
+
+  });
 
 //}
 /*
@@ -223,7 +273,7 @@ foodItem.hasMany(purchaseOrderItems);
 foodItem.hasMany(drawingsTable);
 purchaseOrder.hasMany(purchaseOrderItems);
 supplier.hasMany(paymentVoucher);
-
+hostelMess.hasMany(studentInfo);
 
 console.log("in dbTables");
 console.log(supplier.rawAttributes.contactNO.type.key);
@@ -237,5 +287,4 @@ exports.supplier = supplier;
 exports.typeOfFood = typeOfFood;
 exports.drawingsTable = drawingsTable;
 exports.entriesLog = entriesLog;
-exports.demandedItems=demandedItems;
-b
+exports.demandedItems = demandedItems;

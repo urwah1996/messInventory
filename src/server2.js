@@ -181,8 +181,10 @@ router.route('/:tableName/:_id')
         if (!abc[path]) {
             console.log('rerouting');
             next();
-
+             console.log('rerouted');
         }
+        else
+        {
         console.log("path=" + path);
         console.log('find_id:' + req.params.tableName);
         dbAccess.find(req.params.tableName, req.params._id).then(function (response) {
@@ -192,6 +194,7 @@ router.route('/:tableName/:_id')
             else
                 res.status(200).json(response);
         });
+        }
     })
     .put(function (req, res, next) {
 
@@ -238,6 +241,15 @@ router.route('/:tableName/:_id')
 router.route('/StockOut')
     
     .post(function (req, res, next) {
+        var d = new Date().toISOString().
+                    replace(/T/, ' ').      // replace T with a space
+                    replace(/\..+/, '')
+        var obj={
+            'foodItemId' : req.body.id,
+            'quantity' : req.body.quantity,
+            'date' :d
+        }
+        dbAccess.Insert('drawingsTable',obj)
         console.log(req.body);
         dbAccess.stock(req.body,'out').then(function (a) {
             if (a == 'Updated') {
@@ -250,12 +262,19 @@ router.route('/StockIn')
     
     .post(function (req, res, next) {
         console.log(req.body);
+        
         dbAccess.stock(req.body,'in').then(function (a) {
             if (a == 'Updated') {
                 res.status(200).send('Updated');
             }
         })
     });
+router.route('/PO/:id')
+.get(function(req,res){
+    dbAccess.findpoi(req.params.id).then(function(response){
+        res.status(200).json(response);
+    })
+})
 router.use(function (req, res, next) {
 
     console.log("bdsdsd")

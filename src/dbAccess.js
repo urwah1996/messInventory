@@ -441,6 +441,11 @@ function Update(tableName, q, id) {
             if (i != key.length - 1)
                 query1 += ", ";
         }
+        var d = new Date().toISOString().
+            replace(/T/, ' ').      // replace T with a space
+            replace(/\..+/, '')
+      
+        query1 += ', updatedAt =  \'' + d + '\'';
         console.log(query1);
         return sequelize.query(query1 + " WHERE id = " + id, { type: sequelize.QueryTypes.UPDATE }).then(function (err, results) {
             // Results will be an empty array and metadata will contain the number of affected rows.
@@ -534,6 +539,15 @@ function findbyname(tableName, name) {
         }
     })
 }
+function findpoi(id){
+    return purchaseOrderItems.findAll({
+        where:{
+            purchaseOrderId:id
+        }
+    }).then(function(res){
+        return res;
+    })
+}
 /*exports.dtInsert = dtInsert;
 exports.elInsert = elInsert;
 exports.fdInsert = fdInsert;
@@ -550,6 +564,7 @@ exports.remove = remove;
 exports.countall = countall;
 exports.stock = stock;
 exports.findbyname = findbyname;
+exports.findpoi=findpoi;
 var firstFoodItem = {
     name: 'cabbage',
     quantity: 150,
