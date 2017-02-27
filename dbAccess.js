@@ -2,6 +2,8 @@ var Sequelize = require('sequelize');
 var dbTables = require('./dbTables');
 var validator = require('validator');
 var datetime = require('node-datetime');
+var bcrypt = require('bcrypt-nodejs');
+
 var object = [];
 
 sequelize = dbTables.sequelize;
@@ -24,7 +26,8 @@ abc['purchaseOrder'] = dbTables.purchaseOrder;
 abc['purchaseOrderItems'] = dbTables.purchaseOrderItems;
 abc['supplier'] = dbTables.supplier;
 abc['typeOfFood'] = dbTables.typeOfFood;
-
+abc['UserModel']=dbTables.UserModel;
+abc['demandedItems']=dbTables.demandedItems;
 /*function dtInsert(array) {
     sequelize.sync().then(function () {
         return drawingsTable.findOrCreate({
@@ -257,8 +260,8 @@ function Insert(tableName, q) {
         for (var i = 0; i < key.length; i++) {
             //  console.log(abc[tableName]);
             //  console.log(abc[tableName].rawAttributes);
-            //  console.log(abc[tableName].rawAttributes.name.type.key);
-
+            //  console.log(abc[tableName].rawAttributes);
+            
 
             if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
                 if (validator.isInt(q[key[i]])) {
@@ -640,6 +643,23 @@ var firstTypeOfFood = {
 
 var secondTypeOfFood = {
     name: 'Fresh'
+}
+var user={
+    usename:'ahmed',
+    password: 'checking'
+}
+
+// abc['UserModel'].create({
+//   usename: 'john-doe',
+//   password: 'i-am-so-great'
+// }).then(function(){
+//     console.log('done');
+// })
+function authenticate(id,pass){
+abc['UserModel'].findById(id).then(function (a) {
+  
+  console.log(a.validPassword(pass));
+})
 }
 
 /*

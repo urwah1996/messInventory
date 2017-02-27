@@ -1,4 +1,5 @@
 var Sequelize = require('sequelize');
+var bcrypt = require('bcrypt-nodejs');
 var other = "hellow";
 //var Type = require('type-of-is');
 //function database() {
@@ -208,10 +209,10 @@ var studentInfo = sequelize.define('studentInfo', {
   name: {
     type: Sequelize.STRING
   },
-   faculty: {
+  faculty: {
     type: Sequelize.STRING
   },
-   room: {
+  room: {
     type: Sequelize.INTEGER
   },
 
@@ -220,39 +221,62 @@ var studentInfo = sequelize.define('studentInfo', {
 
   });
 
-  var messLog = sequelize.define('messLog', {
+var messLog = sequelize.define('messLog', {
   /*ID: {
     type: Sequelize.INTEGER
   },*/
   regNo: {
     type: Sequelize.INTEGER
   },
-   date: {
+  date: {
     type: Sequelize.DATEONLY
   },
-   
+
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
 
   });
 
- var hostelMess = sequelize.define('hostelMess', {
+var hostelMess = sequelize.define('hostelMess', {
   /*ID: {
     type: Sequelize.INTEGER
   },*/
   hostel: {
     type: Sequelize.STRING
   },
-   date: {
+  date: {
     type: Sequelize.DATEONLY
   },
-   
+
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
 
   });
 
-//}
+var UserModel = sequelize.define('UserModel', {
+  usename: {
+    type: Sequelize.STRING
+  },
+  password: {
+    type: Sequelize.STRING
+  }
+},
+  {
+    freezeTableName: true, // Model tableName will be the same as the model name
+    hooks: {
+    beforeCreate: function (password) {
+        password.password= bcrypt.hashSync(password.password, bcrypt.genSaltSync(8), null);
+    }
+   },
+   instanceMethods: {
+    validPassword : function(password) {
+    return bcrypt.compareSync(password, this.password);
+  }
+   
+   }
+  });
+
+
 /*
 purchaseOrder.belongsTo(supplier);
 purchaseOrderItems.belongsTo(foodItem);
@@ -288,3 +312,4 @@ exports.typeOfFood = typeOfFood;
 exports.drawingsTable = drawingsTable;
 exports.entriesLog = entriesLog;
 exports.demandedItems = demandedItems;
+exports.UserModel = UserModel;
