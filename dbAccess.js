@@ -265,7 +265,7 @@ function Insert(tableName, q) {
 
             if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
                 if (validator.isInt(q[key[i]])) {
-                    query1 += key[i] + " = " + q[key[i]] + " ";
+                    query1 += '/"'+key[i]+ '/"' + " = " + q[key[i]] + " ";
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -275,7 +275,7 @@ function Insert(tableName, q) {
             }
             if (abc[tableName].rawAttributes[key[i]].type.key == 'FLOAT') {
                 if (validator.isFloat(q[key[i]])) {
-                    query1 += key[i] + " = " + q[key[i]] + " ";
+                    query1 += '/"'+key[i]+ '/"' +" = " + q[key[i]] + " ";
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -285,7 +285,7 @@ function Insert(tableName, q) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'STRING') {
                 if (validator.isAscii(q[key[i]])) {
-                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 +='/"'+key[i]+ '/"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -295,7 +295,7 @@ function Insert(tableName, q) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
                 if (classValidator.IsISO8601(q[key[i]])) {
-                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '/"'+key[i]+ '/"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -305,7 +305,7 @@ function Insert(tableName, q) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'BOOLEAN') {
                 if (validator.isBoolean(q[key[i]])) {
-                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '/"'+key[i]+ '/"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];

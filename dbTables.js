@@ -406,20 +406,20 @@ exports.entriesLog = entriesLog;
 exports.demandedItems = demandedItems;
 exports.UserModel = UserModel;
 
-paymentVoucher.drop().then(function () {
-  sequelize.sync();
-})
+// paymentVoucher.drop().then(function () {
+//   sequelize.sync();
+// })
 
-purchaseOrderItems.drop().then(function () {
-  sequelize.sync();
-})
+// purchaseOrderItems.drop().then(function () {
+//   sequelize.sync();
+// })
 
-purchaseOrder.drop().then(function () {
-  sequelize.sync();
-})
+// purchaseOrder.drop().then(function () {
+//   sequelize.sync();
+// })
 
-supplier.drop().then(function () {
-  sequelize.sync();
-})
+// supplier.drop().then(function () {
+//   sequelize.sync();
+// })
 // module.exports = UserModel;
 // module.exports = global.db;
