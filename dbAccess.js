@@ -294,7 +294,7 @@ function Insert(tableName, q) {
                 }
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
-                if (classValidator.isISO8601(q[key[i]])) {
+                if (classValidator.IsISO8601(q[key[i]])) {
                     query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
@@ -422,7 +422,7 @@ function Update(tableName, q, id) {
                 }
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
-                if (classValidator.isISO8601(q[key[i]])) {
+                if (classValidator.IsISO8601(q[key[i]])) {
                     query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
