@@ -1,9 +1,10 @@
 {
-    "name": "messInventory",
-    "main": "src/server2.js",
-    "description":"Mess Inventory System",
-    "scripts": {
-    "test": "echo \"Error: no test specified\n\" && exit 1"
+  "name": "messInventory",
+  "main": "server2.js",
+  "description": "Mess Inventory System",
+  "scripts": {
+    "test": "echo \"Error: no test specified\n\" && exit 1",
+    "serve": "nodemon server2.js"
   },
   "repository": {
     "type": "git",
@@ -15,12 +16,22 @@
     "url": "https://github.com/urwah1996/messInventory/issues"
   },
   "homepage": "https://github.com/urwah1996/messInventory#readme",
-    "dependencies": {
-        "sequelize": "^3.30.2",
-        "express": "^4.0.0",
-        "mongoose": "^3.6.13",
-        "body-parser": "^1.0.1",
-        "validator": "^7.0.0",
-        "node-datetime": "^1.0.0"
-    }
+  "dependencies": {
+    "bcrypt-nodejs": "latest",
+    "body-parser": "^1.0.1",
+    "connect-flash": "~0.1.1",
+    "cookie-parser": "~1.0.0",
+    "express": "^4.0.0",
+    "express-session": "~1.0.0",
+    "method-override": "~1.0.0",
+    "mongoose": "^3.6.13",
+    "morgan": "~1.0.0",
+    "mysql": "^2.13.0",
+    "node-datetime": "^1.0.0",
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "pg": "^6.1.2",
+    "sequelize": "^3.30.2",
+    "validator": "^7.0.0"
+  }
 }
