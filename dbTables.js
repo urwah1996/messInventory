@@ -227,7 +227,7 @@ var entriesLog = sequelize.define('entriesLog', {
 
   });
 
-
+supplier.removeAttribute(contactNO);
 var supplier = sequelize.define('supplier', {
   /*sID: {
     type: Sequelize.INTEGER,
