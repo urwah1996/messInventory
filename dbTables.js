@@ -20,14 +20,18 @@ console.log("in dbTables/database")
 //     instanceName: 'MSSQLSERVER'
 //   }
 // });
+var match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
 if (process.env.DATABASE_URL) {
   // the application is executed on Heroku ... use the postgres database
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
-    port: 5432,
-    host: ec2-54-221-212-48.compute-1.amazonaws.com,
-    logging: true //false
+    port: match[4],
+    host: match[3],
+    logging: false,
+    dialectOptions: {
+        ssl: true
+    }
   })
 } else {
   // the application is executed on the local machine ... use mysql
