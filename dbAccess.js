@@ -323,7 +323,7 @@ function Insert(tableName, q) {
             console.log(results);
             console.log(metadata);
 
-            if (metadata == '') {
+            if (results == '') {
                 console.log('in if')
                 var query2 = "INSERT INTO " + tableName + " (";
                 var key = Object.keys(q);
