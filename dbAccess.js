@@ -6,28 +6,28 @@ var bcrypt = require('bcrypt-nodejs');
 
 var object = [];
 
-// sequelize = dbTables.sequelize;
-// User = dbTables.User;
-// drawingsTable = dbTables.drawingsTable;
-// entriesLog = dbTables.entriesLog;
+sequelize = dbTables.sequelize;
+User = dbTables.User;
+drawingsTable = dbTables.drawingsTable;
+entriesLog = dbTables.entriesLog;
 foodItem = dbTables.foodItem;
-// paymentVoucher = dbTables.paymentVoucher;
-// purchaseOrder = dbTables.purchaseOrder;
-// purchaseOrderItems = dbTables.purchaseOrderItems;
-// supplier = dbTables.supplier;
-// typeOfFood = dbTables.typeOfFood;
+paymentVoucher = dbTables.paymentVoucher;
+purchaseOrder = dbTables.purchaseOrder;
+purchaseOrderItems = dbTables.purchaseOrderItems;
+supplier = dbTables.supplier;
+typeOfFood = dbTables.typeOfFood;
 
 var abc = {};
-// abc['drawingsTable'] = dbTables.drawingsTable;
-// abc['entriesLog'] = dbTables.entriesLog;
+abc['drawingsTable'] = dbTables.drawingsTable;
+abc['entriesLog'] = dbTables.entriesLog;
 abc['foodItem'] = dbTables.foodItem;
-// abc['paymentVoucher'] = dbTables.paymentVoucher;
-// abc['purchaseOrder'] = dbTables.purchaseOrder;
-// abc['purchaseOrderItems'] = dbTables.purchaseOrderItems;
-// abc['supplier'] = dbTables.supplier;
-// abc['typeOfFood'] = dbTables.typeOfFood;
-// abc['UserModel']=dbTables.UserModel;
-// abc['demandedItems']=dbTables.demandedItems;
+abc['paymentVoucher'] = dbTables.paymentVoucher;
+abc['purchaseOrder'] = dbTables.purchaseOrder;
+abc['purchaseOrderItems'] = dbTables.purchaseOrderItems;
+abc['supplier'] = dbTables.supplier;
+abc['typeOfFood'] = dbTables.typeOfFood;
+abc['UserModel']=dbTables.UserModel;
+abc['demandedItems']=dbTables.demandedItems;
 /*function dtInsert(array) {
     sequelize.sync().then(function () {
         return drawingsTable.findOrCreate({
