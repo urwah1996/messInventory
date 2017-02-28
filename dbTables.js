@@ -364,8 +364,8 @@ supplier.hasMany(paymentVoucher);
 hostelMess.hasMany(studentInfo);
 
 console.log("in dbTables");
-console.log(UserModel.rawAttributes);
-console.log(UserModel.rawAttributes.usename.type.key);
+// console.log(UserModel.rawAttributes);
+// console.log(UserModel.rawAttributes.usename.type.key);
 sequelize.sync();
 exports.sequelize = sequelize;
 exports.foodItem = foodItem;
@@ -378,4 +378,5 @@ exports.drawingsTable = drawingsTable;
 exports.entriesLog = entriesLog;
 exports.demandedItems = demandedItems;
 exports.UserModel = UserModel;
+module.exports=UserModel;
 module.exports=global.db;

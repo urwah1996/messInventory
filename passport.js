@@ -5,6 +5,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 // load up the user model
 var dbAccess            = require('./dbAccess');
 var dbTables            =require('./dbTables');
+var UserModel           =dbTables.UserModel;
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -46,7 +47,7 @@ module.exports = function(passport) {
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-         dbTables.UserModel.findOne({where:{usename:'john-doe'}}).then(function(user){
+         UserModel.findOne({where:{usename:usename}}).then(function(user){
               if (!user)
             {
                 console.log('wrong user');
