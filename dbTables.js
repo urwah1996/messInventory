@@ -405,5 +405,9 @@ exports.drawingsTable = drawingsTable;
 exports.entriesLog = entriesLog;
 exports.demandedItems = demandedItems;
 exports.UserModel = UserModel;
+
+supplier.drop().then(function () {
+  sequelize.sync();
+})
 // module.exports = UserModel;
 // module.exports = global.db;
