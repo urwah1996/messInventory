@@ -16,7 +16,7 @@ purchaseOrder = dbTables.purchaseOrder;
 purchaseOrderItems = dbTables.purchaseOrderItems;
 supplier = dbTables.supplier;
 typeOfFood = dbTables.typeOfFood;
-dbTables.
+//dbTables.
 var abc = {};
 abc['drawingsTable'] = dbTables.drawingsTable;
 abc['entriesLog'] = dbTables.entriesLog;
