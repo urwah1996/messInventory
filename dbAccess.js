@@ -568,7 +568,7 @@ exports.countall = countall;
 exports.stock = stock;
 exports.findbyname = findbyname;
 exports.findpoi = findpoi;
-exports.userCreate=userCreate;
+exports.userCreate = userCreate;
 var firstFoodItem = {
     name: 'cabbage',
     quantity: 150,
@@ -651,13 +651,18 @@ var user = {
 }
 
 function userCreate(usename, pass) {
-    return dbTables.UserModel.create({
-        usename: usename,
-        password: pass
-    }).then(function () {
-        console.log('done');
-        return 'Successfully Created!'
-    })
+   
+    dbTables.UserModel.sync({ force: true }).then(function () {
+        // Table created
+        return dbTables.UserModel.create({
+            usename: usename,
+            password: pass
+        }).then(function () {
+            console.log('done');
+            return 'Successfully Created!'
+        })
+    });
+
 }
 
 function authenticate(id, pass) {
