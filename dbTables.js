@@ -331,7 +331,16 @@ var UserModel = sequelize.define('UserModel', {
     }
   });
 
-
+UserModel.sync({ force: true }).then(function () {
+        // Table created
+         UserModel.create({
+            usename: 'usename',
+            password: 'pass'
+        }).then(function () {
+            console.log('done');
+           // return 'Successfully Created!'
+        })
+    });
 // /*
 // purchaseOrder.belongsTo(supplier);
 // purchaseOrderItems.belongsTo(foodItem);
