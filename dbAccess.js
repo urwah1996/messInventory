@@ -253,7 +253,7 @@ function checkvalidity(tableName, q) {
 */
 function Insert(tableName, q) {
     return sequelize.sync().then(function () {
-        var query1 = "SELECT * FROM " + tableName + " WHERE ";
+        var query1 = "SELECT * FROM \"" + tableName + "\" WHERE ";
         var key = Object.keys(q);
 
         // console.log(abc[tableName].rawAttributes[key[1]].type.key);
@@ -325,7 +325,7 @@ function Insert(tableName, q) {
 
             if (results == '') {
                 console.log('in if')
-                var query2 = "INSERT INTO " + tableName + " (";
+                var query2 = "INSERT INTO \"" + tableName + "\" (";
                 var key = Object.keys(q);
                 for (var i = 0; i < key.length; i++) {
                     query2 += '"'+key[i]+ '"';
@@ -385,7 +385,7 @@ function find(tableName, idInput) {
 function Update(tableName, q, id) {
     return sequelize.sync().then(function () {
         var key = Object.keys(q);
-        var query1 = "UPDATE " + tableName + " SET ";
+        var query1 = "UPDATE \"" + tableName + "\" SET ";
         var i = 0;
 
 
