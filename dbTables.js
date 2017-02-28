@@ -227,7 +227,6 @@ var entriesLog = sequelize.define('entriesLog', {
 
   });
 
-supplier.removeAttribute(contactNO);
 var supplier = sequelize.define('supplier', {
   /*sID: {
     type: Sequelize.INTEGER,
@@ -254,7 +253,13 @@ var supplier = sequelize.define('supplier', {
     //initialAutoIncrement: 1,
 
   });
+supplier.removeAttribute(contactNO);
+supplier.define('supplier',{
+  contactno: {
+    type: Sequelize.BIGINT(11),
 
+  }
+})
 var typeOfFood = sequelize.define('typeOfFood', {
   /*ID: {
     type: Sequelize.INTEGER
