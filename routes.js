@@ -95,6 +95,15 @@ module.exports = function (app, passport, dbAccess, express) {
 
             }
             else {
+                if(path=='UserModel'){
+                    dbAccess.userCreate(req.body.username,req.body.password).then(function(value){
+                         if (value != 'Successfully Created!') {
+                        res.status(404).send(value);
+                    }
+                    else
+                        res.status(200).json(value);
+                    })
+                }
                 dbAccess.Insert(path, req.body).then(function (value) {
                     if (value != 'successfully added') {
                         res.status(404).send(value);

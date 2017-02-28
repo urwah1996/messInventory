@@ -26,8 +26,8 @@ abc['purchaseOrder'] = dbTables.purchaseOrder;
 abc['purchaseOrderItems'] = dbTables.purchaseOrderItems;
 abc['supplier'] = dbTables.supplier;
 abc['typeOfFood'] = dbTables.typeOfFood;
-abc['UserModel']=dbTables.UserModel;
-abc['demandedItems']=dbTables.demandedItems;
+abc['UserModel'] = dbTables.UserModel;
+abc['demandedItems'] = dbTables.demandedItems;
 /*function dtInsert(array) {
     sequelize.sync().then(function () {
         return drawingsTable.findOrCreate({
@@ -261,7 +261,7 @@ function Insert(tableName, q) {
             //  console.log(abc[tableName]);
             //  console.log(abc[tableName].rawAttributes);
             //  console.log(abc[tableName].rawAttributes);
-            
+
 
             if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
                 if (validator.isInt(q[key[i]])) {
@@ -447,7 +447,7 @@ function Update(tableName, q, id) {
         var d = new Date().toISOString().
             replace(/T/, ' ').      // replace T with a space
             replace(/\..+/, '')
-      
+
         query1 += ', updatedAt =  \'' + d + '\'';
         console.log(query1);
         return sequelize.query(query1 + " WHERE id = " + id, { type: sequelize.QueryTypes.UPDATE }).then(function (err, results) {
@@ -542,12 +542,12 @@ function findbyname(tableName, name) {
         }
     })
 }
-function findpoi(id){
+function findpoi(id) {
     return purchaseOrderItems.findAll({
-        where:{
-            purchaseOrderId:id
+        where: {
+            purchaseOrderId: id
         }
-    }).then(function(res){
+    }).then(function (res) {
         return res;
     })
 }
@@ -567,7 +567,8 @@ exports.remove = remove;
 exports.countall = countall;
 exports.stock = stock;
 exports.findbyname = findbyname;
-exports.findpoi=findpoi;
+exports.findpoi = findpoi;
+exports.userCreate=userCreate;
 var firstFoodItem = {
     name: 'cabbage',
     quantity: 150,
@@ -644,22 +645,25 @@ var firstTypeOfFood = {
 var secondTypeOfFood = {
     name: 'Fresh'
 }
-var user={
-    usename:'ahmed',
+var user = {
+    usename: 'ahmed',
     password: 'checking'
 }
+function userCreate(usename, pass) {
+    return abc['UserModel'].create({
+        usename: usename,
+        password: pass
+    }).then(function () {
+        console.log('done');
+        return 'Successfully Created!'
+    })
+}
 
-// abc['UserModel'].create({
-//   usename: 'john-doe',
-//   password: 'i-am-so-great'
-// }).then(function(){
-//     console.log('done');
-// })
-function authenticate(id,pass){
-abc['UserModel'].findById(id).then(function (a) {
-  
-  console.log(a.validPassword(pass));
-})
+function authenticate(id, pass) {
+    abc['UserModel'].findById(id).then(function (a) {
+
+        console.log(a.validPassword(pass));
+    })
 }
 
 /*
