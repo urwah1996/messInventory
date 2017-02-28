@@ -20,9 +20,9 @@ console.log("in dbTables/database")
 //     instanceName: 'MSSQLSERVER'
 //   }
 // });
-if (process.env.postgresql - concave - 86409) {
+if (process.env.DATABASE_URL) {
   // the application is executed on Heroku ... use the postgres database
-  sequelize = new Sequelize(process.env.postgresql - concave - 86409, {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
     port: match[4],
