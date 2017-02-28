@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var sequelize = null;
+//var sequelize = null;
 var bcrypt = require('bcrypt-nodejs');
 var other = "hellow";
 //var Type = require('type-of-is');
@@ -23,7 +23,7 @@ console.log("in dbTables/database")
 var match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
 if (process.env.DATABASE_URL) {
   // the application is executed on Heroku ... use the postgres database
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
+  var sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
     port: match[4],
@@ -35,7 +35,7 @@ if (process.env.DATABASE_URL) {
   })
 } else {
   // the application is executed on the local machine ... use mysql
-  sequelize = sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
+ var sequelize = sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
     dialect: 'mssql',
     host: 'localhost',
     port: 1433, // Default port
@@ -331,8 +331,6 @@ var UserModel = sequelize.define('UserModel', {
     }
   });
 
-UserModel.sync({ force: true }).then(function () {
-        // Table created
          UserModel.create({
             usename: 'usename',
             password: 'pass'
@@ -340,7 +338,7 @@ UserModel.sync({ force: true }).then(function () {
             console.log('done');
            // return 'Successfully Created!'
         })
-    });
+   
 // /*
 // purchaseOrder.belongsTo(supplier);
 // purchaseOrderItems.belongsTo(foodItem);
