@@ -355,7 +355,8 @@ supplier.hasMany(paymentVoucher);
 hostelMess.hasMany(studentInfo);
 
 console.log("in dbTables");
-console.log(supplier.rawAttributes.contactNO.type.key);
+console.log(UserModel.rawAttributes);
+console.log(UserModel.rawAttributes.usename.type.key);
 sequelize.sync();
 exports.sequelize = sequelize;
 exports.foodItem = foodItem;

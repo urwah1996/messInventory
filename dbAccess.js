@@ -649,6 +649,7 @@ var user = {
     usename: 'ahmed',
     password: 'checking'
 }
+
 function userCreate(usename, pass) {
     return dbTables.UserModel.create({
         usename: usename,
