@@ -328,11 +328,11 @@ function Insert(tableName, q) {
                 var query2 = "INSERT INTO " + tableName + " (";
                 var key = Object.keys(q);
                 for (var i = 0; i < key.length; i++) {
-                    query2 += key[i];
+                    query2 += '"'+key[i]+ '"';
                     if (i != key.length - 1)
                         query2 += ", ";
                 }
-                query2 += ', createdAt, updatedAt'
+                query2 += ', "createdAt", "updatedAt"'
                 query2 += ') VALUES (';
                 for (var i = 0; i < key.length; i++) {
                     if (typeof (q[key[i]]) === 'number')
@@ -393,7 +393,7 @@ function Update(tableName, q, id) {
 
             if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
                 if (validator.isInt(q[key[i]])) {
-                    query1 += key[i] + " = " + q[key[i]] + " ";
+                    query1 += '"'+key[i]+ '"' + " = " + q[key[i]] + " ";
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -403,7 +403,7 @@ function Update(tableName, q, id) {
             }
             if (abc[tableName].rawAttributes[key[i]].type.key == 'FLOAT') {
                 if (validator.isFloat(q[key[i]])) {
-                    query1 += key[i] + " = " + q[key[i]] + " ";
+                    query1 +='"'+key[i]+ '"' + " = " + q[key[i]] + " ";
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -413,7 +413,7 @@ function Update(tableName, q, id) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'STRING') {
                 if (validator.isAscii(q[key[i]])) {
-                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '"'+key[i]+ '"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -423,7 +423,7 @@ function Update(tableName, q, id) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
                 if (classValidator.IsISO8601(q[key[i]])) {
-                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '"'+key[i]+ '"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -433,7 +433,7 @@ function Update(tableName, q, id) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'BOOLEAN') {
                 if (validator.isBoolean(q[key[i]])) {
-                    query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '"'+key[i]+ '"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
