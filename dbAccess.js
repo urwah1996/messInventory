@@ -650,7 +650,7 @@ var user = {
     password: 'checking'
 }
 function userCreate(usename, pass) {
-    return abc['UserModel'].create({
+    return dbTables.UserModel.create({
         usename: usename,
         password: pass
     }).then(function () {
