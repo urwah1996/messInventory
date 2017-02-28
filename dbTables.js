@@ -254,12 +254,12 @@ var supplier = sequelize.define('supplier', {
 
   });
 //supplier.removeAttribute(contactNO);
-// supplier.define('supplier',{
-//   contactno: {
-//     type: Sequelize.BIGINT(11),
+supplier.define('supplier',{
+  contactno: {
+    type: Sequelize.BIGINT(11),
 
-//   }
-// })
+  }
+})
 var typeOfFood = sequelize.define('typeOfFood', {
   /*ID: {
     type: Sequelize.INTEGER
