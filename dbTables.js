@@ -253,13 +253,13 @@ var supplier = sequelize.define('supplier', {
     //initialAutoIncrement: 1,
 
   });
-supplier.removeAttribute(contactNO);
-supplier.define('supplier',{
-  contactno: {
-    type: Sequelize.BIGINT(11),
+//supplier.removeAttribute(contactNO);
+// supplier.define('supplier',{
+//   contactno: {
+//     type: Sequelize.BIGINT(11),
 
-  }
-})
+//   }
+// })
 var typeOfFood = sequelize.define('typeOfFood', {
   /*ID: {
     type: Sequelize.INTEGER
@@ -392,7 +392,7 @@ hostelMess.hasMany(studentInfo);
 
 console.log("in dbTables");
 // console.log(UserModel.rawAttributes);
-// console.log(UserModel.rawAttributes.usename.type.key);
+ console.log(supplier.rawAttributes);
 sequelize.sync();
 exports.sequelize = sequelize;
 exports.foodItem = foodItem;
