@@ -331,14 +331,16 @@ var UserModel = sequelize.define('UserModel', {
     }
   });
 
-         UserModel.create({
-            usename: 'usename',
-            password: 'pass'
-        }).then(function () {
-            console.log('done');
-           // return 'Successfully Created!'
-        })
-   
+        //  UserModel.create({
+        //     usename: 'usename',
+        //     password: 'pass'
+        // }).then(function () {
+        //     console.log('done');
+        //    // return 'Successfully Created!'
+        // })
+    UserModel.findOne({where:{usename:'usename'}}).then(function (done) {
+      console.log (done);
+    })
 // /*
 // purchaseOrder.belongsTo(supplier);
 // purchaseOrderItems.belongsTo(foodItem);
