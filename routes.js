@@ -26,7 +26,7 @@ module.exports = function (app, passport, dbAccess, express) {
         console.log('i neeed to pass from here')
     });
     // more routes for our API will happen here
-    app.get('/',function(req,res){
+    app.get('/', function (req, res) {
         res.send('here');
     })
 
@@ -63,6 +63,15 @@ module.exports = function (app, passport, dbAccess, express) {
     // =====================================
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
+    app.post('/createNewUser', function (req, res) {
+        dbAccess.userCreate(req.body.username, req.body.password).then(function (value) {
+            if (value != 'Successfully Created!') {
+                res.status(404).send(value);
+            }
+            else
+                res.status(200).json(value);
+        })
+    });
     app.get('/api', isLoggedIn, function (req, res) {
         res.status(200).send('Successfully logged in');
     });
@@ -70,16 +79,16 @@ module.exports = function (app, passport, dbAccess, express) {
     // =====================================
     // LOGOUT ==============================
     // =====================================
-    app.get('/logout', function(req, res) {
+    app.get('/logout', function (req, res) {
         req.logout();
         res.redirect('/');
     });
-     app.get('/baba', isLoggedIn,function (req, res) {
+    app.get('/baba', isLoggedIn, function (req, res) {
         res.send('donwewew00');
         //res.redirect('/');
     });
     router.route('/:tableName')
-        .post(isLoggedIn,function (req, res, next) {
+        .post(isLoggedIn, function (req, res, next) {
 
 
             console.log(req.body.name);
@@ -95,15 +104,7 @@ module.exports = function (app, passport, dbAccess, express) {
 
             }
             else {
-                if(path=='UserModel'){
-                    dbAccess.userCreate(req.body.username,req.body.password).then(function(value){
-                         if (value != 'Successfully Created!') {
-                        res.status(404).send(value);
-                    }
-                    else
-                        res.status(200).json(value);
-                    })
-                }
+                
                 dbAccess.Insert(path, req.body).then(function (value) {
                     if (value != 'successfully added') {
                         res.status(404).send(value);
