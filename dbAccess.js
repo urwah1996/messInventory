@@ -3,7 +3,7 @@ var dbTables = require('./dbTables');
 var validator = require('validator');
 var datetime = require('node-datetime');
 var bcrypt = require('bcrypt-nodejs');
-
+var classValidator=require('class-validator');
 var object = [];
 
 sequelize = dbTables.sequelize;
@@ -294,7 +294,7 @@ function Insert(tableName, q) {
                 }
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
-                if (validator.isDate(q[key[i]])) {
+                if (classValidator.isISO8601(q[key[i]])) {
                     query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
@@ -422,7 +422,7 @@ function Update(tableName, q, id) {
                 }
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
-                if (validator.isDate(q[key[i]])) {
+                if (classValidator.isISO8601(q[key[i]])) {
                     query1 += key[i] + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {

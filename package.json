@@ -19,6 +19,7 @@
   "dependencies": {
     "bcrypt-nodejs": "latest",
     "body-parser": "^1.0.1",
+    "class-validator": "^0.6.8",
     "connect-flash": "~0.1.1",
     "cookie-parser": "~1.0.0",
     "express": "^4.0.0",
