@@ -30,12 +30,12 @@ if (process.env.DATABASE_URL) {
     host: match[3],
     logging: false,
     dialectOptions: {
-        ssl: true
+      ssl: true
     }
   })
 } else {
   // the application is executed on the local machine ... use mysql
- var sequelize = sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
+  var sequelize = sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
     dialect: 'mssql',
     host: 'localhost',
     port: 1433, // Default port
@@ -52,12 +52,34 @@ if (process.env.DATABASE_URL) {
   });
 }
 
-global.db = {
-  Sequelize: Sequelize,
-  sequelize: sequelize,
-  
+// global.db = {
+//   Sequelize: Sequelize,
+//   sequelize: sequelize,
+//   UserModel: sequelize.define('UserModel', {
+//     usename: {
+//       type: Sequelize.STRING
+//     },
+//     password: {
+//       type: Sequelize.STRING
+//     }
+//   },
+//     {
+//       freezeTableName: true, // Model tableName will be the same as the model name
+//       hooks: {
+//         beforeCreate: function (password) {
+//           password.password = bcrypt.hashSync(password.password, bcrypt.genSaltSync(8), null);
+//         }
+//       },
+//       instanceMethods: {
+//         validPassword: function (password) {
+//           return bcrypt.compareSync(password, this.password);
+//         }
+
+//       }
+//     })
+
   // add your other models here
-}
+//}
 // var sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
 //   dialect: 'mssql',
 //   host: 'localhost',
@@ -331,16 +353,16 @@ var UserModel = sequelize.define('UserModel', {
     }
   });
 
-        //  UserModel.create({
-        //     usename: 'usename',
-        //     password: 'pass'
-        // }).then(function () {
-        //     console.log('done');
-        //    // return 'Successfully Created!'
-        // })
-    UserModel.findOne({where:{usename:'usename'}}).then(function (done) {
-      console.log (done);
-    })
+//  UserModel.create({
+//     usename: 'usename',
+//     password: 'pass'
+// }).then(function () {
+//     console.log('done');
+//    // return 'Successfully Created!'
+// })
+UserModel.findOne({ where: { usename: 'usename' } }).then(function (done) {
+  console.log(done);
+})
 // /*
 // purchaseOrder.belongsTo(supplier);
 // purchaseOrderItems.belongsTo(foodItem);
@@ -378,5 +400,5 @@ exports.drawingsTable = drawingsTable;
 exports.entriesLog = entriesLog;
 exports.demandedItems = demandedItems;
 exports.UserModel = UserModel;
-module.exports=UserModel;
-module.exports=global.db;
+// module.exports = UserModel;
+// module.exports = global.db;
