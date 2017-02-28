@@ -239,7 +239,7 @@ var supplier = sequelize.define('supplier', {
     type: Sequelize.STRING,
 
   },
-  contactno: {
+  contactNO: {
     type: Sequelize.BIGINT(11),
 
 
