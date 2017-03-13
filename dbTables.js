@@ -20,9 +20,10 @@ console.log("in dbTables/database")
 //     instanceName: 'MSSQLSERVER'
 //   }
 // });
-var match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
+
 if (process.env.DATABASE_URL) {
   // the application is executed on Heroku ... use the postgres database
+  var match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
   var sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
@@ -78,7 +79,7 @@ if (process.env.DATABASE_URL) {
 //       }
 //     })
 
-  // add your other models here
+// add your other models here
 //}
 // var sequelize = new Sequelize('centralMessInventory', 'sa', '1234', {
 //   dialect: 'mssql',
@@ -392,7 +393,7 @@ hostelMess.hasMany(studentInfo);
 
 console.log("in dbTables");
 // console.log(UserModel.rawAttributes);
- console.log(supplier.rawAttributes);
+console.log(purchaseOrder.rawAttributes);
 sequelize.sync();
 exports.sequelize = sequelize;
 exports.foodItem = foodItem;

@@ -104,14 +104,51 @@ module.exports = function (app, passport, dbAccess, express) {
 
             }
             else {
-                
-                dbAccess.Insert(path, req.body).then(function (value) {
-                    if (value != 'successfully added') {
-                        res.status(404).send(value);
+                if (path == 'purchaseOrder') {
+                    var obj = {
+                        supplierId: req.body.supplierId,
+                        deliveryDate: req.body.deliveryDate,
+                        issueDate: dbAccess.getDate()
                     }
-                    else
-                        res.status(200).json(value);
-                });
+                    delete req.body.supplierId;
+                    delete req.body.deliveryDate;
+                    delete req.body.issueDate;
+
+                    console.log(req.body);
+                    dbAccess.Insert(path, obj).then(function (value) {
+                        if (value != 'successfully added') {
+                            res.status(404).send(value);
+
+                        }
+                        else {
+
+
+                            res.status(200).json(value);
+
+                        }
+                        dbAccess.lastId(path).then(function (a) {
+                            var b = a.toString();
+                            console.log(b)
+                            req.body.purchaseOrderId = b;
+                            req.body.delivered = 'false';
+                            console.log(req.body);
+                            dbAccess.Insert('purchaseOrderItems', req.body).then(function (v) {
+                                res.status(200).json(v);
+                            })
+                        })
+                    })
+
+
+                }
+                else {
+                    dbAccess.Insert(path, req.body).then(function (value) {
+                        if (value != 'successfully added') {
+                            res.status(404).send(value);
+                        }
+                        else
+                            res.status(200).json(value);
+                    });
+                }
             }
 
 

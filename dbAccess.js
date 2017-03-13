@@ -3,7 +3,7 @@ var dbTables = require('./dbTables');
 var validator = require('validator');
 var datetime = require('node-datetime');
 var bcrypt = require('bcrypt-nodejs');
-var classValidator=require('class-validator');
+var classValidator = require('class-validator');
 var object = [];
 
 sequelize = dbTables.sequelize;
@@ -265,7 +265,7 @@ function Insert(tableName, q) {
 
             if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
                 if (validator.isInt(q[key[i]])) {
-                    query1 += '"'+key[i]+ '"' + " = " + q[key[i]] + " ";
+                    query1 += '"' + key[i] + '"' + " = " + q[key[i]] + " ";
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -275,7 +275,7 @@ function Insert(tableName, q) {
             }
             if (abc[tableName].rawAttributes[key[i]].type.key == 'FLOAT') {
                 if (validator.isFloat(q[key[i]])) {
-                    query1 += '"'+key[i]+ '"' +" = " + q[key[i]] + " ";
+                    query1 += '"' + key[i] + '"' + " = " + q[key[i]] + " ";
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -285,7 +285,7 @@ function Insert(tableName, q) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'STRING') {
                 if (validator.isAscii(q[key[i]])) {
-                    query1 +='"'+key[i]+ '"' + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '"' + key[i] + '"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -295,7 +295,7 @@ function Insert(tableName, q) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
                 if (classValidator.IsISO8601(q[key[i]])) {
-                    query1 += '"'+key[i]+ '"'  + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '"' + key[i] + '"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -305,7 +305,7 @@ function Insert(tableName, q) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'BOOLEAN') {
                 if (validator.isBoolean(q[key[i]])) {
-                    query1 += '"'+key[i]+ '"'  + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '"' + key[i] + '"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -328,7 +328,7 @@ function Insert(tableName, q) {
                 var query2 = "INSERT INTO \"" + tableName + "\" (";
                 var key = Object.keys(q);
                 for (var i = 0; i < key.length; i++) {
-                    query2 += '"'+key[i]+ '"';
+                    query2 += '"' + key[i] + '"';
                     if (i != key.length - 1)
                         query2 += ", ";
                 }
@@ -350,9 +350,11 @@ function Insert(tableName, q) {
                 query2 += ', \'' + d + '\', \'' + d + '\'';
                 query2 += ')'
                 console.log(query2);
-                return sequelize.query(query2).spread(function (results, metadata) {
+                return sequelize.query(query2, {
+                    type: Sequelize.QueryTypes.INSERT
+                }).then(function (results) {
                     // Results will be an empty array and metadata will contain the number of affected rows.
-                    console.log(results);
+                    console.log(results.id);
                     console.log(metadata);
 
                     return 'successfully added';
@@ -393,7 +395,7 @@ function Update(tableName, q, id) {
 
             if (abc[tableName].rawAttributes[key[i]].type.key == 'INTEGER' || abc[tableName].rawAttributes[key[i]].type.key == 'BIGINT') {
                 if (validator.isInt(q[key[i]])) {
-                    query1 += '"'+key[i]+ '"' + " = " + q[key[i]] + " ";
+                    query1 += '"' + key[i] + '"' + " = " + q[key[i]] + " ";
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -403,7 +405,7 @@ function Update(tableName, q, id) {
             }
             if (abc[tableName].rawAttributes[key[i]].type.key == 'FLOAT') {
                 if (validator.isFloat(q[key[i]])) {
-                    query1 +='"'+key[i]+ '"' + " = " + q[key[i]] + " ";
+                    query1 += '"' + key[i] + '"' + " = " + q[key[i]] + " ";
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -413,7 +415,7 @@ function Update(tableName, q, id) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'STRING') {
                 if (validator.isAscii(q[key[i]])) {
-                    query1 += '"'+key[i]+ '"' + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '"' + key[i] + '"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -423,7 +425,7 @@ function Update(tableName, q, id) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'DATEONLY' || abc[tableName].rawAttributes[key[i]].type.key == 'DATE') {
                 if (classValidator.IsISO8601(q[key[i]])) {
-                    query1 += '"'+key[i]+ '"' + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '"' + key[i] + '"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -433,7 +435,7 @@ function Update(tableName, q, id) {
             }
             else if (abc[tableName].rawAttributes[key[i]].type.key == 'BOOLEAN') {
                 if (validator.isBoolean(q[key[i]])) {
-                    query1 += '"'+key[i]+ '"' + " = " + '\'' + q[key[i]] + '\' ';
+                    query1 += '"' + key[i] + '"' + " = " + '\'' + q[key[i]] + '\' ';
                 }
                 else {
                     var a = 'Wrong format! for ' + key[i];
@@ -551,6 +553,25 @@ function findpoi(id) {
         return res;
     })
 }
+
+function lastId(tableName) {
+    return fAll(tableName, 0, 200000000000000000).then(function (obj) {
+        var highest = obj[Object.keys(obj).pop()];
+        //console.log(highest.id);
+        return highest.id
+    })
+}
+lastId('foodItem').then(function (a) {
+    console.log('\''+a+'\'');
+}
+)
+function getDate() {
+    var d = new Date().toISOString().
+        replace(/T/, ' ').      // replace T with a space
+        replace(/\..+/, '')
+
+    return d;
+}
 /*exports.dtInsert = dtInsert;
 exports.elInsert = elInsert;
 exports.fdInsert = fdInsert;
@@ -569,6 +590,8 @@ exports.stock = stock;
 exports.findbyname = findbyname;
 exports.findpoi = findpoi;
 exports.userCreate = userCreate;
+exports.lastId=lastId;
+exports.getDate=getDate;
 var firstFoodItem = {
     name: 'cabbage',
     quantity: 150,
@@ -651,7 +674,7 @@ var user = {
 }
 
 function userCreate(usename, pass) {
-   
+
     dbTables.UserModel.sync({ force: true }).then(function () {
         // Table created
         return dbTables.UserModel.create({
