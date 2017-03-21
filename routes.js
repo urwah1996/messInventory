@@ -134,7 +134,7 @@ module.exports = function (app, passport, dbAccess, express) {
                         dbAccess.lastId(path).then(function (a) {
                             var b = a.toString();
                             console.log(b)
-                            req.body.purchaseOrderId = b;
+                            req.body.pOId = b;
                             req.body.delivered = 'false';
                             console.log(req.body);
                             dbAccess.Insert('purchaseOrderItems', req.body).then(function (v) {
