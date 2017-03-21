@@ -217,9 +217,7 @@ var entriesLog = sequelize.define('entriesLog', {
   quantity: {
     type: Sequelize.FLOAT
   },
-  date: {
-    type: Sequelize.DATE
-  },
+ 
   /*purchaseOrderItemNo: {
     type: Sequelize.INTEGER
   },*/
@@ -384,15 +382,14 @@ UserModel.findOne({ where: { usename: 'usename' } }).then(function (done) {
 // foodItem.belongsTo(typeOfFood);
 // */
 typeOfFood.hasMany(foodItem,{foreignKey: 'type'});
-supplier.hasMany(purchaseOrder)
-purchaseOrder.hasMany(paymentVoucher);
-foodItem.hasMany(entriesLog);
-purchaseOrderItems.hasMany(entriesLog);
-foodItem.hasMany(drawingsTable);
-foodItem.hasMany(purchaseOrderItems);
-foodItem.hasMany(drawingsTable);
-purchaseOrder.hasMany(purchaseOrderItems);
-supplier.hasMany(paymentVoucher);
+supplier.hasMany(purchaseOrder,{foreignKey: 'supplierId'})
+purchaseOrder.hasMany(paymentVoucher,{foreignKey: 'pOId'});
+foodItem.hasMany(entriesLog,{foreignKey: 'foodId'});
+purchaseOrderItems.hasMany(entriesLog,{foreignKey: 'pOItemNo'});
+foodItem.hasMany(drawingsTable,{foreignKey: 'foodId'});
+foodItem.hasMany(purchaseOrderItems,{foreignKey: 'foodId'});
+purchaseOrder.hasMany(purchaseOrderItems,{foreignKey: 'pOId'});
+supplier.hasMany(paymentVoucher,{foreignKey: 'supplierId'});
 hostelMess.hasMany(studentInfo);
 
 console.log("in dbTables");
