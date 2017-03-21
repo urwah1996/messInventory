@@ -383,7 +383,7 @@ UserModel.findOne({ where: { usename: 'usename' } }).then(function (done) {
 // entriesLog.belongsTo(purchaseOrderItems);
 // foodItem.belongsTo(typeOfFood);
 // */
-typeOfFood.hasMany(foodItem,{as:'type'});
+typeOfFood.hasMany(foodItem,{foreignKey: 'type'});
 supplier.hasMany(purchaseOrder)
 purchaseOrder.hasMany(paymentVoucher);
 foodItem.hasMany(entriesLog);
