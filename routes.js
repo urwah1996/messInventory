@@ -25,6 +25,11 @@ module.exports = function (app, passport, dbAccess, express) {
     app.use('/api', isLoggedIn, function (req, res) {
         console.log('i neeed to pass from here')
     });
+    app.use(function (req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    });
     // more routes for our API will happen here
     app.get('/', function (req, res) {
         res.send('here');
