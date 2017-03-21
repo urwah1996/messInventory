@@ -101,9 +101,13 @@ sequelize.authenticate().then(function (errors) { console.log(errors) });
 
 
 var foodItem = sequelize.define('foodItem', {
-  /*foodId: {
+  foodId: {
     type: Sequelize.INTEGER,
-  },*/
+    primaryKey: true,
+    allowNull: false,
+    unique: true,
+    autoIncrement: true
+  },
   name: {
     type: Sequelize.STRING,
   },
@@ -379,7 +383,7 @@ UserModel.findOne({ where: { usename: 'usename' } }).then(function (done) {
 // entriesLog.belongsTo(purchaseOrderItems);
 // foodItem.belongsTo(typeOfFood);
 // */
-typeOfFood.hasMany(foodItem);
+typeOfFood.hasMany(foodItem,{as:'type'});
 supplier.hasMany(purchaseOrder)
 purchaseOrder.hasMany(paymentVoucher);
 foodItem.hasMany(entriesLog);
