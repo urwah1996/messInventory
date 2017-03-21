@@ -397,7 +397,7 @@ hostelMess.hasMany(studentInfo);
 
 console.log("in dbTables");
 // console.log(UserModel.rawAttributes);
-console.log(purchaseOrder.rawAttributes);
+console.log(foodItem.rawAttributes);
 sequelize.sync();
 exports.sequelize = sequelize;
 exports.foodItem = foodItem;
