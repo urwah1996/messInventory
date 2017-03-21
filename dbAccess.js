@@ -455,7 +455,7 @@ function Update(tableName, q, id) {
         return sequelize.query(query1 + " WHERE id = " + id, { type: sequelize.QueryTypes.UPDATE }).then(function (err, results) {
             // Results will be an empty array and metadata will contain the number of affected rows.
             if (err) {
-                console.log('ee');
+                console.log('error');
             }
             console.log(results);
 
@@ -561,10 +561,8 @@ function lastId(tableName) {
         return highest.id
     })
 }
-lastId('foodItem').then(function (a) {
-    console.log('\''+a+'\'');
-}
-)
+
+
 function getDate() {
     var d = new Date().toISOString().
         replace(/T/, ' ').      // replace T with a space

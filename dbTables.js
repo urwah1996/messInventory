@@ -101,13 +101,13 @@ sequelize.authenticate().then(function (errors) { console.log(errors) });
 
 
 var foodItem = sequelize.define('foodItem', {
-  foodId: {
+  /*foodId: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     allowNull: false,
     unique: true,
     autoIncrement: true
-  },
+  },*/
   name: {
     type: Sequelize.STRING,
   },
