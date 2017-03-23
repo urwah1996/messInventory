@@ -131,7 +131,7 @@ var foodItem = sequelize.define('foodItem', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-
+    
   });
 
 var paymentVoucher = sequelize.define('paymentVoucher', {
@@ -164,7 +164,8 @@ var purchaseOrder = sequelize.define('purchaseOrder', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-
+    
+    
   });
 
 var purchaseOrderItems = sequelize.define('purchaseOrderItems', {
@@ -254,7 +255,7 @@ var supplier = sequelize.define('supplier', {
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
     //initialAutoIncrement: 1,
-
+    
   });
 //supplier.removeAttribute(contactNO);
 // supplier.define('supplier',{
@@ -272,7 +273,7 @@ var typeOfFood = sequelize.define('typeOfFood', {
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
-
+    
   });
 
 var demandedItems = sequelize.define('demandedItems', {
@@ -368,11 +369,11 @@ var UserModel = sequelize.define('UserModel', {
 //     console.log('done');
 //    // return 'Successfully Created!'
 // })
-UserModel.findOne({ where: { usename: 'usename' } }).then(function (done) {
+foodItem.findOne({ where: { id: 5 } }).then(function (done) {
   console.log(done);
 })
 // /*
-// purchaseOrder.belongsTo(supplier);
+ purchaseOrder.belongsTo(supplier);
 // purchaseOrderItems.belongsTo(foodItem);
 // purchaseOrderItems.belongsTo(purchaseOrder);
 // paymentVoucher.belongsTo(purchaseOrder);

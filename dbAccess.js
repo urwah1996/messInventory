@@ -472,7 +472,20 @@ function Update(tableName, q, id) {
 }
 
 function fAll(tableName, offset, limit) {
-    return abc[tableName].findAll({ offset: offset, limit: limit }).then(function (response) {
+    return abc[tableName].findAll({
+        offset: offset,
+        limit: limit,
+        include: [
+            // {
+            //     model:purchaseOrderItems,
+            //     nested: true
+            // },
+            
+                supplier,
+                purchaseOrderItems
+            
+            ]
+    }).then(function (response) {
         // if(err){
         //     return (err,null);
         // }
@@ -588,8 +601,8 @@ exports.stock = stock;
 exports.findbyname = findbyname;
 exports.findpoi = findpoi;
 exports.userCreate = userCreate;
-exports.lastId=lastId;
-exports.getDate=getDate;
+exports.lastId = lastId;
+exports.getDate = getDate;
 var firstFoodItem = {
     name: 'cabbage',
     quantity: 150,
