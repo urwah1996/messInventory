@@ -115,7 +115,7 @@ module.exports = function (app, passport, dbAccess, express) {
                     var obj = {
                         supplierId: req.body.supplierId,
                         deliveryDate: req.body.deliveryDate,
-                        issueDate: dbAccess.getDate()
+                        issueDate: req.body.issueDate
                     }
                     delete req.body.supplierId;
                     delete req.body.deliveryDate;
@@ -136,12 +136,15 @@ module.exports = function (app, passport, dbAccess, express) {
                         dbAccess.lastId(path).then(function (a) {
                             var b = a.toString();
                             console.log(b)
-                            req.body.pOId = b;
-                            req.body.delivered = 'false';
+                            
                             console.log(req.body);
-                            dbAccess.Insert('purchaseOrderItems', req.body).then(function (v) {
-                                res.status(200).json(v);
-                            })
+                            for (var i = 0; i < req.body.items.length; i++) {
+                                req.body.items[i].pOId = b;
+                                dbAccess.Insert('purchaseOrderItems', req.body.items[i]).then(function (v) {
+                                    res.status(200).json(v);
+                                })
+                            }
+
                         })
                     })
 

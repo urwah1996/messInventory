@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/urwah1996/messInventory#readme",
   "dependencies": {
+    "axios": "^0.15.3",
     "bcrypt-nodejs": "latest",
     "body-parser": "^1.0.1",
     "class-validator": "^0.6.8",
@@ -29,9 +30,11 @@
     "morgan": "~1.0.0",
     "mysql": "^2.13.0",
     "node-datetime": "^1.0.0",
+    "node-fetch": "^1.6.3",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "pg": "^6.1.2",
+    "promise": "^7.1.1",
     "sequelize": "^3.30.2",
     "validator": "^7.0.0"
   }

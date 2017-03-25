@@ -4,7 +4,9 @@ var validator = require('validator');
 var datetime = require('node-datetime');
 var bcrypt = require('bcrypt-nodejs');
 var classValidator = require('class-validator');
+var Promise = require('promise');
 var object = [];
+var references = require('./references')
 
 sequelize = dbTables.sequelize;
 User = dbTables.User;
@@ -472,29 +474,43 @@ function Update(tableName, q, id) {
 }
 
 function fAll(tableName, offset, limit) {
-    return abc[tableName].findAll({
-        offset: offset,
-        limit: limit,
-        include: [
-            // {
-            //     model:purchaseOrderItems,
-            //     nested: true
-            // },
-            
-                supplier,
-                purchaseOrderItems
-            
-            ]
-    }).then(function (response) {
-        // if(err){
-        //     return (err,null);
-        // }
-        if (!response) {
-            response = 'Error';
+    return references.reference(tableName).then(function (val) {
+        console.log('hello')
+        if (val) {
+            console.log(val.include)
+
+            var include = val.include;
+            var attributes = val.attributes;
+            var vr = {
+                offset: offset,
+                limit: limit,
+                attributes: attributes,
+                include: include,
+
+            }
+            // vr.attributes.push(val.attributes)
+            console.log(vr)
         }
-        console.log(JSON.stringify(response));
-        return (response);
+        else{
+            var vr = {
+                offset: offset,
+                limit: limit,
+
+            }
+        }
+
+        return abc[tableName].findAll(vr).then(function (response) {
+            // if(err){
+            //     return (err,null);
+            // }
+            if (!response) {
+                response = 'Error';
+            }
+            console.log(JSON.stringify(response));
+            return (response);
+        })
     })
+
 }
 function countall(tableName) {
     return abc[tableName].count().then(function (metadata) {
@@ -705,7 +721,6 @@ function authenticate(id, pass) {
         console.log(a.validPassword(pass));
     })
 }
-
 /*
 Insert('supplier', firstSupplier);
 

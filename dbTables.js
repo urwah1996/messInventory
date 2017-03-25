@@ -110,6 +110,7 @@ var foodItem = sequelize.define('foodItem', {
   },*/
   name: {
     type: Sequelize.STRING,
+    allowNull: false
   },
   /*type: {
     type: Sequelize.INTEGER,
@@ -128,6 +129,7 @@ var foodItem = sequelize.define('foodItem', {
   },
   unit: {
     type: Sequelize.STRING,
+    allowNull:false
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
@@ -157,10 +159,12 @@ var purchaseOrder = sequelize.define('purchaseOrder', {
     type: Sequelize.INTEGER
   },*/
   issueDate: {
-    type: Sequelize.DATEONLY
+    type: Sequelize.DATEONLY,
+    allowNull:false
   },
   deliveryDate: {
-    type: Sequelize.DATEONLY
+    type: Sequelize.DATEONLY,
+    allowNull:false
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
@@ -179,16 +183,19 @@ var purchaseOrderItems = sequelize.define('purchaseOrderItems', {
     type: Sequelize.INTEGER
   },*/
   delivered: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    allowNull:false
   },
   quantityDemanded: {
-    type: Sequelize.FLOAT
+    type: Sequelize.FLOAT,
+    allowNull:false
   },
   quantityReceived: {
     type: Sequelize.FLOAT
   },
   rate: {
-    type: Sequelize.FLOAT
+    type: Sequelize.FLOAT,
+    allowNull:false
   },
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
@@ -241,7 +248,7 @@ var supplier = sequelize.define('supplier', {
   },*/
   name: {
     type: Sequelize.STRING,
-
+    allowNull: false
   },
   contactNO: {
     type: Sequelize.BIGINT(11),
@@ -269,7 +276,8 @@ var typeOfFood = sequelize.define('typeOfFood', {
     type: Sequelize.INTEGER
   },*/
   name: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false
   }
 }, {
     freezeTableName: true, // Model tableName will be the same as the model name
@@ -369,33 +377,36 @@ var UserModel = sequelize.define('UserModel', {
 //     console.log('done');
 //    // return 'Successfully Created!'
 // })
-foodItem.findOne({ where: { id: 5 } }).then(function (done) {
-  console.log(done);
-})
+
 // /*
- purchaseOrder.belongsTo(supplier);
-// purchaseOrderItems.belongsTo(foodItem);
-// purchaseOrderItems.belongsTo(purchaseOrder);
-// paymentVoucher.belongsTo(purchaseOrder);
-// drawingsTable.belongsTo(foodItem);
-// entriesLog.belongsTo(foodItem);
-// entriesLog.belongsTo(purchaseOrderItems);
-// foodItem.belongsTo(typeOfFood);
-// */
+ purchaseOrder.belongsTo(supplier,{foreignKey:'supplierId',as:'Supplier'});
+ purchaseOrderItems.belongsTo(foodItem,{foreignKey: 'foodId'});
+purchaseOrderItems.belongsTo(purchaseOrder,{foreignKey: 'pOId',as:'Items'});
+purchaseOrderItems.belongsTo(purchaseOrder,{foreignKey: 'pOId',as:'Order'});
+paymentVoucher.belongsTo(purchaseOrder,{foreignKey: 'pOId'});
+drawingsTable.belongsTo(foodItem,{foreignKey: 'foodId'});
+entriesLog.belongsTo(foodItem,{foreignKey: 'foodId'});
+entriesLog.belongsTo(purchaseOrderItems,{foreignKey: 'pOItemNo'});
+foodItem.belongsTo(typeOfFood,{foreignKey: 'type'});
+paymentVoucher.belongsTo(supplier,{foreignKey:'supplierId'});
+
+
+
 typeOfFood.hasMany(foodItem,{foreignKey: 'type'});
-supplier.hasMany(purchaseOrder,{foreignKey: 'supplierId'})
+supplier.hasMany(purchaseOrder,{foreignKey: 'supplierId',as:'Supplier'})
 purchaseOrder.hasMany(paymentVoucher,{foreignKey: 'pOId'});
 foodItem.hasMany(entriesLog,{foreignKey: 'foodId'});
 purchaseOrderItems.hasMany(entriesLog,{foreignKey: 'pOItemNo'});
 foodItem.hasMany(drawingsTable,{foreignKey: 'foodId'});
 foodItem.hasMany(purchaseOrderItems,{foreignKey: 'foodId'});
-purchaseOrder.hasMany(purchaseOrderItems,{foreignKey: 'pOId'});
+purchaseOrder.hasMany(purchaseOrderItems,{foreignKey: 'pOId',as:'Items'});
+purchaseOrder.hasMany(purchaseOrderItems,{foreignKey: 'pOId',as:'Order'});
 supplier.hasMany(paymentVoucher,{foreignKey: 'supplierId'});
 hostelMess.hasMany(studentInfo);
 
 console.log("in dbTables");
-// console.log(UserModel.rawAttributes);
-console.log(foodItem.rawAttributes);
+ //console.log(supplier.rawAttributes);
+
 sequelize.sync();
 exports.sequelize = sequelize;
 exports.foodItem = foodItem;
