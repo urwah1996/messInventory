@@ -97,7 +97,7 @@ module.exports = function (app, passport, dbAccess, express) {
         res.status(200).send('heroku here');
     })
     app.post('/herokuCheckIn',function(req,res){
-        res.status(200).send('req.body');
+        res.status(200).send(req.body);
     })
     // =====================================
     // LOGOUT ==============================

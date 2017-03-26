@@ -55,7 +55,7 @@ fetch('https://tranquil-bastion-28756.herokuapp.com/herokuCheckIn',
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 var querystring = require('querystring');
-axios.post('https://tranquil-bastion-28756.herokuapp.com/login', 
+axios.post('https://tranquil-bastion-28756.herokuapp.com/herokuCheckIn', 
 
     querystring.stringify({
         usename: "ahmed",
