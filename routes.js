@@ -10,7 +10,7 @@ module.exports = function (app, passport, dbAccess, express) {
 
     // ROUTES FOR OUR API
     app.use(function (req, res, next) {
-        res.header('Access-Control-Allow-Credentials','true')
+        res.header('Access-Control-Allow-Credentials', 'true')
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type, Authorization, Content-Length, X-Requested-With,Accept');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
         res.header('Access-Control-Allow-Origin', '*');
@@ -26,7 +26,11 @@ module.exports = function (app, passport, dbAccess, express) {
     });
     // =============================================================================
     var router = express.Router();              // get an instance of the express Router
-
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect: '/api', // redirect to the secure profile section
+        failureRedirect: '/login', // redirect back to the signup page if there is an error
+        failureFlash: true // allow flash messages
+    }));
     // middleware to use for all requests
     router.use(function (req, res, next) {
         // do logging
@@ -93,10 +97,10 @@ module.exports = function (app, passport, dbAccess, express) {
     app.get('/api', isLoggedIn, function (req, res) {
         res.status(200).send('Successfully logged in');
     });
-    app.get('/herokuCheckIn',function(req,res){
+    app.get('/herokuCheckIn', function (req, res) {
         res.status(200).send('heroku here');
     })
-    app.post('/herokuCheckIn',function(req,res){
+    app.post('/herokuCheckIn', function (req, res) {
         res.status(200).send(req.body);
     })
     // =====================================
@@ -387,11 +391,7 @@ module.exports = function (app, passport, dbAccess, express) {
         console.log("bdsdsd")
         res.status(404).send('Not Found');
     });
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/api', // redirect to the secure profile section
-        failureRedirect: '/login', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
+
 
     // REGISTER OUR ROUTES -------------------------------
     // all of our routes will be prefixed with /api
@@ -402,9 +402,9 @@ module.exports = function (app, passport, dbAccess, express) {
 function isLoggedIn(req, res, next) {
 
     // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
+   // if (req.isAuthenticated())
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/');
+   // res.redirect('/');
 }

@@ -22,9 +22,9 @@ var b = querystring.stringify({
 
 
 })
-var postData = JSON.stringify({
-    "usename": "ahmed",
-    "password": "checking"
+var postData = querystring.stringify({
+    "usename": 'usename',
+    "password": "pass"
 });
 fetch('https://tranquil-bastion-28756.herokuapp.com/herokuCheckIn')
     .then(function (res) {
@@ -33,42 +33,51 @@ fetch('https://tranquil-bastion-28756.herokuapp.com/herokuCheckIn')
         console.log(body);
     });
 
-fetch('https://tranquil-bastion-28756.herokuapp.com/herokuCheckIn',
-    {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: postData,
+// fetch('https://tranquil-bastion-28756.herokuapp.com/herokuCheckIn',
+//     {
+//         method: 'POST',
+//         headers: {
+//             'Accept': 'application/json',
+//             'Content-Type': 'application/json'
+//         },
+//         body: postData,
 
-    })
-    .then(function (res) {
-        console.log(res)
-        return res.json();
-    }).then(function (json) {
-        console.log('here')
-        //console.log(json);
-    });
+//     })
+//     .then(function (res) {
+//         console.log(res)
+//         return res.json();
+//     }).then(function (json) {
+//         console.log('here')
+//         //console.log(json);
+//     });
 //axios.defaults.baseURL = 'https://api.example.com';
-//axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.headers.common['Authorization'] = {
+//     usename: 'ahmed',
+//     password: 'checking'
+// };
+//axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 var querystring = require('querystring');
-axios.post('https://tranquil-bastion-28756.herokuapp.com/herokuCheckIn', 
+axios.post('https://tranquil-bastion-28756.herokuapp.com/login'
+    ,
 
-    querystring.stringify({
-        usename: "ahmed",
-        password: "checking"
-    })
+    {
+	"usename":"ahmed",
+	"password":"checking"
+}
 
-
-,{ 
+    ,
+    {
         headers: {
-            "Accept":"application/x-www-form-urlencoded",
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-}).then(function (response) {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        withCredentials: true,
+        // auth: {
+        //     usename: 'ahmed',
+        //     password: 'checking'
+        // },
+    }).then(function (response) {
         console.log(response);
     })
     .catch(function (error) {
