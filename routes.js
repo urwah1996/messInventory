@@ -9,6 +9,21 @@ module.exports = function (app, passport, dbAccess, express) {
     //var port = process.env.PORT || 8080;        // set our port
 
     // ROUTES FOR OUR API
+    app.use(function (req, res, next) {
+        res.header('Access-Control-Allow-Credentials','true')
+        res.header('Access-Control-Allow-Headers', 'Origin,Content-Type, Authorization, Content-Length, X-Requested-With,Accept');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Origin', '*');
+
+        // intercept OPTIONS method
+        if ('OPTIONS' == req.method) {
+            res.send(200);
+        }
+        else {
+            next();
+        }
+
+    });
     // =============================================================================
     var router = express.Router();              // get an instance of the express Router
 
@@ -27,11 +42,7 @@ module.exports = function (app, passport, dbAccess, express) {
     app.use('/api', isLoggedIn, function (req, res) {
         console.log('i neeed to pass from here')
     });
-    app.use(function (req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        next();
-    });
+
     // more routes for our API will happen here
     app.get('/', function (req, res) {
         res.send('here');
@@ -136,7 +147,7 @@ module.exports = function (app, passport, dbAccess, express) {
                         dbAccess.lastId(path).then(function (a) {
                             var b = a.toString();
                             console.log(b)
-                            
+
                             console.log(req.body);
                             for (var i = 0; i < req.body.items.length; i++) {
                                 req.body.items[i].pOId = b;
