@@ -26,14 +26,14 @@ var postData = JSON.stringify({
     "usename": "ahmed",
     "password": "checking"
 });
-fetch('https://tranquil-bastion-28756.herokuapp.com/login')
+fetch('https://tranquil-bastion-28756.herokuapp.com/herokuCheckIn')
     .then(function (res) {
         return res.text();
     }).then(function (body) {
         console.log(body);
     });
 
-fetch('https://tranquil-bastion-28756.herokuapp.com/login',
+fetch('https://tranquil-bastion-28756.herokuapp.com/herokuCheckIn',
     {
         method: 'POST',
         headers: {
