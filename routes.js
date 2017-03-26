@@ -93,7 +93,12 @@ module.exports = function (app, passport, dbAccess, express) {
     app.get('/api', isLoggedIn, function (req, res) {
         res.status(200).send('Successfully logged in');
     });
-
+    app.get('/herokuCheckIn',function(req,res){
+        res.status(200).send('heroku here');
+    })
+    app.post('/herokuCheckIn',function(req,res){
+        res.status(200).send(req.body);
+    })
     // =====================================
     // LOGOUT ==============================
     // =====================================

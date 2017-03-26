@@ -4,6 +4,7 @@ var references = require('./references')
 var axios = require("axios");
 var fetch = require('node-fetch');
 var querystring = require('querystring');
+var qs = require('qs');
 // function start(route, handle) {
 //     function onRequest(request, response) {
 //         var pathname = url.parse(request.url).pathname;
@@ -21,9 +22,9 @@ var b = querystring.stringify({
 
 
 })
-var postData = querystring.stringify({
-    usename: "ahmed",
-    password: "checking"
+var postData = JSON.stringify({
+    "usename": "ahmed",
+    "password": "checking"
 });
 fetch('https://tranquil-bastion-28756.herokuapp.com/login')
     .then(function (res) {
@@ -32,50 +33,55 @@ fetch('https://tranquil-bastion-28756.herokuapp.com/login')
         console.log(body);
     });
 
-// fetch('https://tranquil-bastion-28756.herokuapp.com/login',
-//     {
-//         method: 'POST', body: {
-//             usename: "ahmed",
-//             password: "checking"
-//         },
-//         headers: {
-//             'Content-Type': 'application/json'
-//         }
-//     })
-//     .then(function (res) {
-//         console.log(res)
-//         return res.json();
-//     }).then(function (json) {
-//         console.log('here')
-//         //console.log(json);
-//     });
+fetch('https://tranquil-bastion-28756.herokuapp.com/login',
+    {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: postData,
+
+    })
+    .then(function (res) {
+        console.log(res)
+        return res.json();
+    }).then(function (json) {
+        console.log('here')
+        //console.log(json);
+    });
 //axios.defaults.baseURL = 'https://api.example.com';
 //axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 var querystring = require('querystring');
-// axios.post('https://tranquil-bastion-28756.herokuapp.com/login', {
-//      usename:"ahmed",
-//     password:"checking"
+axios.post('https://tranquil-bastion-28756.herokuapp.com/login', 
 
-//  }, {
-//       headers: { 
-//         "Content-Type": "application/json"
-//       }
-//     }).then(function (response) {
+    querystring.stringify({
+        usename: "ahmed",
+        password: "checking"
+    })
+
+
+,{ 
+        headers: {
+            "Accept":"application/x-www-form-urlencoded",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+}).then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+//console.log(references.data);
+
+// axios.post('https://tranquil-bastion-28756.herokuapp.com/login',{
+//     usename:'ahmed',
+//     password:'checking'
+// }).then(function (response) {
 //     console.log(response);
 //   })
 //   .catch(function (error) {
 //     console.log(error);
 //   });
-//console.log(references.data);
-
-axios.post('https://tranquil-bastion-28756.herokuapp.com/login',{
-    usename:'ahmed',
-    password:'checking'
-}).then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
